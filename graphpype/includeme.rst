@@ -4,4 +4,4 @@
 README :
 ********
 
-.. include:: ../../graphpype/README.rst
+.. include:: ../../graphpype/README.md

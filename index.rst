@@ -114,7 +114,7 @@ Packages
    :maxdepth: 2
 
    ephypype/ephypype
-   neuropycon_cli <https://github.com/dmalt/neuropycon_cli>
+   neuropycon_cli/index
    graphpype/index
 
 
