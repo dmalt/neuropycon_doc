@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How to build a Workflow &mdash; neuropycon 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="neuropycon 0.1 documentation" href="../index.html"/>
+        <link rel="up" title="Examples" href="examples.html"/>
+        <link rel="next" title="params file" href="params.html"/>
+        <link rel="prev" title="Source reconstruction Workflow" href="inv_example.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> neuropycon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ephypype/ephypype.html">ephypype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../neuropycon_cli/index.html">neuropycon_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../graphpype/index.html">graphpype</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="preproc_example.html">Preprocessing Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="power_example.html">PSD Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction Workflow</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to build a Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#main-steps">Main steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#import-modules">Import modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#define-variables">Define variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specify-nodes">Specify Nodes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#infosource-input">Infosource Input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datagrabber-input">DataGrabber Input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iterables-input">Iterables Input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pipeline-input">Pipeline Input</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#input-stream">Input Stream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specify-workflows-and-connect-nodes">Specify Workflows and Connect Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-workflow">Run Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">neuropycon</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="examples.html">Examples</a> &raquo;</li>
+        
+      <li>How to build a Workflow</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/howto.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-to-build-a-workflow">
+<span id="howto"></span><h1>How to build a Workflow<a class="headerlink" href="#how-to-build-a-workflow" title="Permalink to this headline">¶</a></h1>
+<p>The following section is a brief introduction on how to build a Workflow by using Neuropycon package.
+This example script allows to construct a Workflow to perform spectral connectivity and graph analysis in sensor space
+(see <a class="reference internal" href="../ephypype/pipelines/spectral_connectivity.html#spectral-connectivity"><span class="std std-ref">Connectivity pipeline</span></a> Section).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This section is based on the <a href="http://miykael.github.io/nipype-beginner-s-guide/firstSteps.html" target="_blank">Nipype Beginner's Guide</a></p>
+</div>
+<div class="section" id="main-steps">
+<h2>Main steps<a class="headerlink" href="#main-steps" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>Import modules</strong>: the first step in any script is to import necessary functions or modules</li>
+<li><strong>Define variables</strong>: the definition of variables we use in the script can be put in a separate file (see <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> for a list of all possible variables)</li>
+<li><strong>Specify Nodes</strong>: before to build a Workflow, we have to create some Nodes</li>
+<li><strong>Input Stream</strong>: we need to specify the path of the folders where the Workflow can get the data from</li>
+<li><strong>Specify Workflows and Connect Nodes</strong>: to set the order in which to execute the just created Nodes, we have to create a Workflow and specify the connections between the Nodes;
+in this way the Workflow will be executed in a sequential mode</li>
+<li><strong>Run Workflow</strong>: as last step we can run the Workflow!</li>
+</ul>
+</div>
+<div class="section" id="import-modules">
+<span id="modules"></span><h2>Import modules<a class="headerlink" href="#import-modules" title="Permalink to this headline">¶</a></h2>
+<p>The first thing is to import the modules we need in the script. We import from nipype and neuropycon packages.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="k">as</span> <span class="nn">nio</span>
+
+<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">IdentityInterface</span><span class="p">,</span> <span class="n">Function</span>
+
+<span class="kn">from</span> <span class="nn">ephypype.preproc</span> <span class="k">import</span> <span class="n">create_ts</span>
+<span class="kn">from</span> <span class="nn">ephypype.pipelines.ts_to_conmat</span> <span class="k">import</span> <span class="n">create_pipeline_time_series_to_spectral_connectivity</span>
+
+<span class="kn">from</span> <span class="nn">graphpype.pipelines.conmat_to_graph</span> <span class="k">import</span> <span class="n">create_pipeline_conmat_to_graph_density</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="define-variables">
+<span id="variables"></span><h2>Define variables<a class="headerlink" href="#define-variables" title="Permalink to this headline">¶</a></h2>
+<p>We have to specify some variables that are specific for the data analysis (the main directories where the data are stored,
+the list of subjects and sessions, …) and the pipelines we use (connectivity measure, frequency band of interest, …)
+We can put all these variables in a separate file <code class="xref download docutils literal"><span class="pre">params_congraph.py</span></code>.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
+<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">con_method</span>
+<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">correl_analysis_name</span><span class="p">,</span> <span class="n">epoch_window_length</span>
+</pre></div>
+</div>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_freq_band</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">):</span>
+
+    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">freq_bands</span>
+
+    <span class="k">if</span> <span class="n">freq_band_name</span> <span class="ow">in</span> <span class="n">freq_band_names</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="n">freq_band_name</span>
+        <span class="nb">print</span> <span class="n">freq_band_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">freq_bands</span><span class="p">[</span><span class="n">freq_band_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specify-nodes">
+<h2>Specify Nodes<a class="headerlink" href="#specify-nodes" title="Permalink to this headline">¶</a></h2>
+<p>Before to create a Workflow we have to create the Nodes that define the workflow itself. A Node is an object that can encapsulate
+either an <strong>Interface</strong> to an external tool or a <strong>function</strong> defined by the user. A Node can also encapsulate an another <strong>pipeline</strong>.</p>
+<p>Every Node has always at least one input and one output field: the knowledge of these inputs and outputs allows to connect the different Nodes
+and define the stream of input and output between them.
+In this example the main Nodes are</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">infosource</span></code> is an IdentityInterface Node that just distributes values (see <a class="reference internal" href="#infosource"><span class="std std-ref">Infosource Input</span></a>)</li>
+<li><code class="docutils literal"><span class="pre">datasource</span></code> is a DataGrabber Node that allows the user to define flexible search patterns which can be parameterized by user defined inputs (see <a class="reference internal" href="#datagrabber"><span class="std std-ref">DataGrabber Input</span></a>)</li>
+<li><a class="reference internal" href="../ephypype/ephypype.html#ephypype.preproc.create_ts" title="ephypype.preproc.create_ts"><code class="xref py py-func docutils literal"><span class="pre">create_ts</span></code></a> : reads a raw data file and save in different files the data matrix, the sensors locations and the sensors labels</li>
+<li><code class="docutils literal"><span class="pre">ts_to_conmat</span></code> is a Node containing the connectivity pipeline created by <a class="reference internal" href="../ephypype/ephypype.pipelines.html#ephypype.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="ephypype.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a> (see <a class="reference internal" href="#inputnode"><span class="std std-ref">Pipeline Input</span></a>)</li>
+</ul>
+<div class="section" id="infosource-input">
+<span id="infosource"></span><h3>Infosource Input<a class="headerlink" href="#infosource-input" title="Permalink to this headline">¶</a></h3>
+<p>The Infosource Node allows to distributes values: when we need to feed the different subject names into the workflow
+we only need a Node that can receive the input [‘sub001’,’sub002’,’sub003’] and distribute those inputs to the workflow.</p>
+</div>
+<div class="section" id="datagrabber-input">
+<span id="datagrabber"></span><h3>DataGrabber Input<a class="headerlink" href="#datagrabber-input" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">DataGrabber</span> <span class="pre">Interface</span></code> allows to define flexible search patterns which can be parameterized by user
+defined inputs (such as subject ID, session, etc.).
+In this example we parameterize the pattern search with <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.</p>
+</div>
+<div class="section" id="iterables-input">
+<h3>Iterables Input<a class="headerlink" href="#iterables-input" title="Permalink to this headline">¶</a></h3>
+<p>Iterables are a special kind of input fields and any input field of any Node can be turned into an Iterable.
+Iterables are very important for the repeated execution of a workflow with slightly changed parameters.
+Usually, Iterables are used to feed the different subject names into the workflow, causing your workflow to create
+as many execution workflows as subjects. And depending on your system, all of those workflows could be executed in parallel.</p>
+<p>In this example script, to run the Workflow for different subjects and sessions we have to iterate over a list of subject IDs
+and session names by setting the iterables property of the <code class="docutils literal"><span class="pre">datasource</span></code> Node for the inputs <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.
+This is performed by connecting these inputs to the iterables inputs of <code class="docutils literal"><span class="pre">infosource</span></code> Node.</p>
+</div>
+<div class="section" id="pipeline-input">
+<span id="inputnode"></span><h3>Pipeline Input<a class="headerlink" href="#pipeline-input" title="Permalink to this headline">¶</a></h3>
+<p>Each pipeline provided by Neuropycon requires two different kind of inputs:</p>
+<ul class="simple">
+<li>inputs of the pipeline</li>
+<li><strong>inputnode</strong>: these particular inputs are defined after the creation of the pipeline; an inputnode of the pipeline is defined by an output of a previous Node</li>
+</ul>
+<p>For example, looking at the definition of <a class="reference internal" href="../ephypype/ephypype.pipelines.html#ephypype.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="ephypype.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a> module
+<code class="docutils literal"><span class="pre">main_path</span></code> and <code class="docutils literal"><span class="pre">con_method</span></code> are inputs of the pipeline
+while <code class="docutils literal"><span class="pre">ts_file</span></code> is an inputnode and should be specified as</p>
+<p><code class="docutils literal"><span class="pre">main_workflow.connect(create_ts_node,</span> <span class="pre">'ts_file',</span> <span class="pre">spectral_workflow,</span> <span class="pre">'inputnode.ts_file')</span></code></p>
+</div>
+</div>
+<div class="section" id="input-stream">
+<h2>Input Stream<a class="headerlink" href="#input-stream" title="Permalink to this headline">¶</a></h2>
+<p>To specify the folder structure of the input data we use DataGrabber Interface (see <a class="reference internal" href="#datagrabber"><span class="std std-ref">DataGrabber Input</span></a>)</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_infosource</span><span class="p">():</span>
+
+    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">test</span>
+
+    <span class="c1"># Infosource - a function free node to iterate over the list of subject IDs, sessions and</span>
+    <span class="c1"># frequency bands</span>
+    <span class="n">infosource</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;sess_index&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;freq_band_name&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;infosource&quot;</span><span class="p">)</span>
+
+
+    <span class="n">infosource</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">),</span>
+                            <span class="p">(</span><span class="s1">&#39;sess_index&#39;</span><span class="p">,</span> <span class="n">sessions</span><span class="p">),</span>
+                            <span class="p">(</span><span class="s1">&#39;freq_band_name&#39;</span><span class="p">,</span> <span class="n">freq_band_names</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">infosource</span>
+
+<span class="k">def</span> <span class="nf">create_datasource</span><span class="p">():</span>
+
+    <span class="n">datasource</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">nio</span><span class="o">.</span><span class="n">DataGrabber</span><span class="p">(</span><span class="n">infields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;sess_index&#39;</span><span class="p">],</span>
+                                                  <span class="n">outfields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;raw_file&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;datasource&#39;</span><span class="p">)</span>
+
+    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">base_directory</span> <span class="o">=</span> <span class="n">data_path</span>
+<span class="hll">    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;*</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/meg/</span><span class="si">%s</span><span class="s1">*rest*ica.fif&#39;</span>
+</span><span class="hll">    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">raw_file</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
+</span><span class="hll">                                                      <span class="s1">&#39;sess_index&#39;</span><span class="p">,</span>
+</span><span class="hll">                                                      <span class="s1">&#39;subject_id&#39;</span><span class="p">]])</span>
+</span>
+    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sort_filelist</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">return</span> <span class="n">datasource</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specify-workflows-and-connect-nodes">
+<h2>Specify Workflows and Connect Nodes<a class="headerlink" href="#specify-workflows-and-connect-nodes" title="Permalink to this headline">¶</a></h2>
+<p>The purpose of workflows is to guide the sequential execution of Nodes: we create a main Workflow to connect
+the different Nodes and define the data flow from the outputs of one Node
+to the inputs of the connected Nodes. The specified connections create our Workflow: the created Nodes and the dependencies
+between them are represented as a graph (see <a class="reference internal" href="#wf-graph"><span class="std std-ref">Workflow graph</span></a>), in this way it is easy to see which Nodes are executed and in
+which order.</p>
+<p>It is important to point out that we have to connect the output and input fields of each node to the output and input fields of another node.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_main_workflow_spectral_modularity</span><span class="p">():</span>
+
+<span class="hll">    <span class="n">main_workflow</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">correl_analysis_name</span><span class="p">)</span>
+</span>    <span class="n">main_workflow</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+
+    <span class="c1"># info source</span>
+    <span class="n">infosource</span> <span class="o">=</span> <span class="n">create_infosource</span><span class="p">()</span>
+
+    <span class="c1"># data source</span>
+    <span class="n">datasource</span> <span class="o">=</span> <span class="n">create_datasource</span><span class="p">()</span>
+
+<span class="hll">    <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">infosource</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="n">datasource</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">infosource</span><span class="p">,</span> <span class="s1">&#39;sess_index&#39;</span><span class="p">,</span> <span class="n">datasource</span><span class="p">,</span> <span class="s1">&#39;sess_index&#39;</span><span class="p">)</span>
+</span>
+    <span class="n">create_ts_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;raw_fname&#39;</span><span class="p">],</span>
+                                          <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ts_file&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;channel_coords_file&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;channel_names_file&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;sfreq&#39;</span><span class="p">],</span>
+                                          <span class="n">function</span><span class="o">=</span><span class="n">create_ts</span><span class="p">),</span>
+                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;create_ts&#39;</span><span class="p">)</span>
+
+    <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">datasource</span><span class="p">,</span> <span class="s1">&#39;raw_file&#39;</span><span class="p">,</span>
+                          <span class="n">create_ts_node</span><span class="p">,</span> <span class="s1">&#39;raw_fname&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>  <span class="n">spectral_workflow</span> <span class="o">=</span> \
+      <span class="n">create_pipeline_time_series_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span>
+                                                          <span class="n">con_method</span><span class="o">=</span><span class="n">con_method</span><span class="p">,</span>
+                                                          <span class="n">epoch_window_length</span><span class="o">=</span><span class="n">epoch_window_length</span><span class="p">)</span>
+
+  <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s1">&#39;ts_file&#39;</span><span class="p">,</span>
+                        <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s1">&#39;inputnode.ts_file&#39;</span><span class="p">)</span>
+
+<span class="hll">  <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s1">&#39;channel_names_file&#39;</span><span class="p">,</span>
+</span><span class="hll">                        <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s1">&#39;inputnode.labels_file&#39;</span><span class="p">)</span>
+</span>
+  <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">infosource</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;freq_band_name&#39;</span><span class="p">,</span> <span class="n">get_freq_band</span><span class="p">),</span>
+                        <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s1">&#39;inputnode.freq_band&#39;</span><span class="p">)</span>
+
+  <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s1">&#39;sfreq&#39;</span><span class="p">,</span>
+                        <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s1">&#39;inputnode.sfreq&#39;</span><span class="p">)</span>
+
+
+  <span class="k">return</span> <span class="n">main_workflow</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-workflow">
+<h2>Run Workflow<a class="headerlink" href="#run-workflow" title="Permalink to this headline">¶</a></h2>
+<p>After we have specified all the Nodes and connections of the Workflow, the last step is to run it
+by calling the <code class="docutils literal"><span class="pre">run()</span></code> method.
+It’s also possible to generate static graphs representing Nodes and connections between them
+by calling <code class="docutils literal"><span class="pre">write_graph()</span></code> method.</p>
+<p>If we rerun the Workflow, only the Nodes whose inputs have changed since the last run
+will be executed again.  If not, it will simply return cached results.
+This is achieved by recording a hash of the inputs.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="c1"># run pipeline:</span>
+    <span class="n">main_workflow</span> <span class="o">=</span> <span class="n">create_main_workflow_spectral_modularity</span><span class="p">()</span>
+
+    <span class="n">main_workflow</span><span class="o">.</span><span class="n">write_graph</span><span class="p">(</span><span class="n">graph2use</span><span class="o">=</span><span class="s1">&#39;colored&#39;</span><span class="p">)</span>  <span class="c1"># colored</span>
+    <span class="n">main_workflow</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;execution&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;remove_unnecessary_outputs&#39;</span><span class="p">:</span> <span class="s1">&#39;false&#39;</span><span class="p">}</span>
+    <span class="n">main_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="s1">&#39;MultiProc&#39;</span><span class="p">,</span> <span class="n">plugin_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;n_procs&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id1">
+<span id="wf-graph"></span><a class="reference internal image-reference" href="../_images/graph_dot_conn1.jpg"><img alt="../_images/graph_dot_conn1.jpg" src="../_images/graph_dot_conn1.jpg" style="width: 200.25px; height: 446.25px;" /></a>
+<p class="caption"><span class="caption-text">Workflow graph</span></p>
+</div>
+<p><strong>Download</strong> Parameters file: <code class="xref download docutils literal"><span class="pre">params_conn.py</span></code></p>
+<p><strong>Download</strong> Python source code: <code class="xref download docutils literal"><span class="pre">run_spectral.py</span></code></p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="params.html" class="btn btn-neutral float-right" title="params file" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="inv_example.html" class="btn btn-neutral" title="Source reconstruction Workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

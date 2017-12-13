@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>&lt;no title&gt; &mdash; neuropycon 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="neuropycon 0.1 documentation" href="../index.html"/>
+        <link rel="up" title="ephypype" href="ephypype.html"/>
+        <link rel="next" title="ephypype.interfaces package" href="ephypype.interfaces.html"/>
+        <link rel="prev" title="Connectivity pipeline" href="pipelines/spectral_connectivity.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> neuropycon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="ephypype.html">ephypype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../neuropycon_cli/index.html">neuropycon_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../graphpype/index.html">graphpype</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">neuropycon</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ephypype.html">ephypype</a> &raquo;</li>
+        
+      <li>&lt;no title&gt;</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/ephypype/includeme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p id="includeme-ephypype"># Description</p>
+<p>Neuropycon package of functions for electrophysiology analysis, can be used from
+graphpype and nipype</p>
+<p># Documentation</p>
+<p><a class="reference external" href="https://neuropycon.github.io/neuropycon_doc/ephypype.html">https://neuropycon.github.io/neuropycon_doc/ephypype.html</a></p>
+<p># Installation</p>
+<p>## Requirements
+Up to now ephypype works only with python2; python3 compatibility is planned for later releases</p>
+<ul class="simple">
+<li>numpy</li>
+<li>scikit-learn</li>
+<li>mne</li>
+<li>nipype</li>
+<li>graphpype</li>
+</ul>
+<p>## Install package
+### Install ephypype
+<a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>bash
+git clone <a class="reference external" href="https://github.com/neuropycon/ephypype.git">https://github.com/neuropycon/ephypype.git</a>
+cd ephypype
+sudo python setup.py develop
+cd ..</p>
+<p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">###</span> <span class="pre">Install</span> <span class="pre">graphpype</span>
+<span class="pre">```bash</span>
+<span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/neuropycon/graphpype.git</span>
+<span class="pre">cd</span> <span class="pre">graphpype</span>
+<span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span>
+<span class="pre">cd</span> <span class="pre">..</span>
+<span class="pre">`</span></code></p>
+<p>## Software</p>
+<p>### Freesurfer</p>
+<ol class="arabic simple">
+<li>Download Freesurfer sotware:</li>
+</ol>
+<p><a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall">https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall</a></p>
+<ol class="arabic simple" start="2">
+<li>Follow the Installation instructions</li>
+</ol>
+<p><a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/LinuxInstall">https://surfer.nmr.mgh.harvard.edu/fswiki/LinuxInstall</a></p>
+<p>### MNE</p>
+<ol class="arabic simple">
+<li>Download MNE sotware:</li>
+</ol>
+<p><a class="reference external" href="http://martinos.org/mne/dev/install_mne_c.html">http://martinos.org/mne/dev/install_mne_c.html</a></p>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ephypype.interfaces.html" class="btn btn-neutral float-right" title="ephypype.interfaces package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pipelines/spectral_connectivity.html" class="btn btn-neutral" title="Connectivity pipeline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

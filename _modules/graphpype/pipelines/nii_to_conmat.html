@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>graphpype.pipelines.nii_to_conmat &mdash; neuropycon 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="neuropycon 0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> neuropycon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephypype/ephypype.html">ephypype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../neuropycon_cli/index.html">neuropycon_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../graphpype/index.html">graphpype</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">neuropycon</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>graphpype.pipelines.nii_to_conmat</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for graphpype.pipelines.nii_to_conmat</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">From nifti file to conmat</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span> 
+
+<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+
+<span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span>  <span class="k">as</span> <span class="nn">niu</span>
+<span class="kn">import</span> <span class="nn">nipype.interfaces.spm.utils</span> <span class="k">as</span> <span class="nn">spmu</span>
+
+<span class="kn">from</span> <span class="nn">graphpype.nodes.correl_mat</span> <span class="k">import</span> <span class="n">IntersectMask</span><span class="p">,</span><span class="n">ExtractTS</span><span class="p">,</span><span class="n">ExtractMeanTS</span><span class="p">,</span><span class="n">RegressCovar</span><span class="p">,</span><span class="n">FindSPMRegressor</span><span class="p">,</span><span class="n">MergeRuns</span><span class="p">,</span><span class="n">ComputeConfCorMat</span>
+
+<span class="kn">from</span> <span class="nn">graphpype.utils</span> <span class="k">import</span> <span class="n">show_files</span><span class="p">,</span><span class="n">show_length</span>
+
+<span class="c1">#import imp</span>
+
+<span class="c1">#try:</span>
+    <span class="c1">#imp.find_module(&#39;igraph&#39;)</span>
+    <span class="c1">#can_plot_igraph = True</span>
+    <span class="c1">#from graphpype.nodes.igraph_plots import PlotIGraphModules</span>
+
+<span class="c1">#except ImportError:</span>
+    <span class="c1">#can_plot_igraph = False</span>
+
+
+<span class="k">def</span> <span class="nf">create_pipeline_nii_to_conmat_simple</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">ROI_mask_file</span><span class="p">,</span><span class="n">pipeline_name</span> <span class="o">=</span> <span class="s2">&quot;nii_to_conmat&quot;</span><span class="p">,</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span><span class="n">background_val</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Pipeline from nifti 4D (after preprocessing) to connectivity matrices</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs (inputnode):</span>
+<span class="sd">    </span>
+<span class="sd">        * nii_4D_file</span>
+<span class="sd">        * rp_file</span>
+<span class="sd">        </span>
+<span class="sd">        as arguments;</span>
+<span class="sd">        * ROI_mask_file</span>
+<span class="sd">    </span>
+<span class="sd">    Comments:</span>
+<span class="sd">    </span>
+<span class="sd">    Typically used after nipype preprocessing pipeline and before conmat_to_graph pipeline</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+    
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span><span class="s1">&#39;rp_file&#39;</span><span class="p">]),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#### Nodes version: use min_BOLD_intensity and return coords where signal is strong enough </span>
+    <span class="n">extract_mean_ROI_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">True</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_mean_ROI_ts&#39;</span><span class="p">)</span>
+    <span class="n">extract_mean_ROI_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">indexed_rois_file</span> <span class="o">=</span> <span class="n">ROI_mask_file</span>
+    <span class="n">extract_mean_ROI_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">background_val</span> <span class="o">=</span> <span class="n">background_val</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    
+    <span class="c1">##### regress covariates</span>
+    <span class="c1">#### use R linear model to regress movement parameters, white matter and ventricule signals, and compute Z-score of the residuals</span>
+    <span class="n">regress_covar</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">RegressCovar</span><span class="p">(),</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;masked_ts_file&#39;</span><span class="p">,</span><span class="s1">&#39;rp_file&#39;</span><span class="p">],</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;regress_covar&#39;</span><span class="p">)</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;masked_ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;rp_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;rp_file&#39;</span><span class="p">)</span>
+    
+    <span class="c1">###################################### compute correlations ####################################################</span>
+    
+    <span class="n">compute_conf_cor_mat</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeConfCorMat</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;compute_conf_cor_mat&#39;</span><span class="p">)</span>
+    <span class="n">compute_conf_cor_mat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="n">conf_interval_prob</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;resid_ts_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;subj_label_rois_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;labels_file&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pipeline</span>
+
+
+<span class="k">def</span> <span class="nf">create_pipeline_nii_to_conmat_no_seg</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s2">&quot;nii_to_conmat&quot;</span><span class="p">,</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Pipeline from nifti 4D (after preprocessing) to connectivity matrices</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs (inputnode):</span>
+<span class="sd">    </span>
+<span class="sd">        * nii_4D_file</span>
+<span class="sd">        * rp_file</span>
+<span class="sd">        * ROI_mask_file</span>
+<span class="sd">        * ROI_coords_file</span>
+<span class="sd">        * ROI_MNI_coords_file</span>
+<span class="sd">        * ROI_labels_file</span>
+<span class="sd">    </span>
+<span class="sd">    Comments:</span>
+<span class="sd">    </span>
+<span class="sd">    Typically used after nipype preprocessing pipeline and before conmat_to_graph pipeline</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+    
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span><span class="s1">&#39;rp_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_mask_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_coords_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_MNI_coords_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+     
+    <span class="c1">#### Nodes version: use min_BOLD_intensity and return coords where signal is strong enough </span>
+    <span class="n">extract_mean_ROI_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_mean_ROI_ts&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#pipeline.connect(inputnode, &#39;ROI_coords_file&#39;, filter_ROI_mask_with_GM, &#39;coords_rois_file&#39;)</span>
+    <span class="c1">#pipeline.connect(inputnode, &#39;ROI_MNI_coords_file&#39;, filter_ROI_mask_with_GM, &#39;MNI_coords_rois_file&#39;)</span>
+    <span class="c1">#pipeline.connect(inputnode, &#39;ROI_labels_file&#39;, filter_ROI_mask_with_GM, &#39;labels_rois_file&#39;)</span>
+    
+    
+    <span class="c1">#extract_mean_ROI_ts.inputs.indexed_rois_file = ROI_mask_file</span>
+    
+    <span class="c1">#extract_mean_ROI_ts.inputs.coord_rois_file = ROI_coords_file</span>
+    <span class="c1">#extract_mean_ROI_ts.inputs.min_BOLD_intensity = min_BOLD_intensity</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_mask_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;indexed_rois_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_coords_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;coord_rois_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;label_rois_file&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#### extract white matter signal</span>
+    <span class="n">compute_wm_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_wm_ts&#39;</span><span class="p">)</span>
+    <span class="n">compute_wm_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;wm&#39;</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">compute_wm_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    <span class="n">compute_wm_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ROI_coord</span> <span class="o">=</span> <span class="p">[</span><span class="mi">46</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">76</span><span class="p">]</span>
+    
+    <span class="c1">#### extract csf signal</span>
+    <span class="n">compute_csf_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_csf_ts&#39;</span><span class="p">)</span>
+    <span class="n">compute_csf_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;csf&#39;</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">compute_csf_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    <span class="n">compute_csf_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ROI_coord</span> <span class="o">=</span> <span class="p">[</span><span class="mi">47</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">83</span><span class="p">]</span>
+    
+    <span class="c1">#### regress covariates</span>
+    
+    <span class="c1">### use R linear model to regress movement parameters, white matter and ventricule signals, and compute Z-score of the residuals</span>
+    <span class="c1">#regress_covar = pe.MapNode(interface = RegressCovar(filtered = False, normalized = False),iterfield = [&#39;masked_ts_file&#39;,&#39;rp_file&#39;,&#39;mean_wm_ts_file&#39;,&#39;mean_csf_ts_file&#39;],name=&#39;regress_covar&#39;)</span>
+    <span class="n">regress_covar</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">RegressCovar</span><span class="p">(),</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;masked_ts_file&#39;</span><span class="p">,</span><span class="s1">&#39;rp_file&#39;</span><span class="p">],</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;regress_covar&#39;</span><span class="p">)</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;masked_ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_wm_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;mean_wm_ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_csf_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;mean_csf_ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;rp_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;rp_file&#39;</span><span class="p">)</span>
+    
+    <span class="c1">##################################### compute correlations ####################################################</span>
+    
+    <span class="n">compute_conf_cor_mat</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeConfCorMat</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;compute_conf_cor_mat&#39;</span><span class="p">)</span>
+    <span class="n">compute_conf_cor_mat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="n">conf_interval_prob</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;resid_ts_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;subj_label_rois_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;labels_file&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pipeline</span>
+
+
+<span class="k">def</span> <span class="nf">create_pipeline_nii_to_conmat_seg_template</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s2">&quot;nii_to_conmat&quot;</span><span class="p">,</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Pipeline from nifti 4D (after preprocessing) to connectivity matrices</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs (inputnode):</span>
+<span class="sd">    </span>
+<span class="sd">        * nii_4D_file</span>
+<span class="sd">        * rp_file</span>
+<span class="sd">        </span>
+<span class="sd">        * wm_anat_file</span>
+<span class="sd">        * csf_anat_file</span>
+<span class="sd">        </span>
+<span class="sd">        * ROI_mask_file</span>
+<span class="sd">        * ROI_coords_file</span>
+<span class="sd">        * ROI_MNI_coords_file</span>
+<span class="sd">        * ROI_labels_file</span>
+<span class="sd">    </span>
+<span class="sd">    Comments:</span>
+<span class="sd">    </span>
+<span class="sd">    Typically used after nipype preprocessing pipeline and before conmat_to_graph pipeline</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+    
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span><span class="s1">&#39;rp_file&#39;</span><span class="p">,</span><span class="s1">&#39;wm_anat_file&#39;</span><span class="p">,</span><span class="s1">&#39;csf_anat_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_mask_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_coords_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_MNI_coords_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+     
+    <span class="c1">#### Nodes version: use min_BOLD_intensity and return coords where signal is strong enough </span>
+    <span class="n">extract_mean_ROI_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_mean_ROI_ts&#39;</span><span class="p">)</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_mask_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;indexed_rois_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_coords_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;coord_rois_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;label_rois_file&#39;</span><span class="p">)</span>
+    
+    
+    <span class="c1">#### extract white matter signal</span>
+    <span class="n">compute_wm_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_wm_ts&#39;</span><span class="p">)</span>
+    <span class="n">compute_wm_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;wm&#39;</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">compute_wm_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;wm_anat_file&#39;</span><span class="p">,</span>  <span class="n">compute_wm_ts</span><span class="p">,</span> <span class="s1">&#39;filter_mask_file&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#### extract csf signal</span>
+    <span class="n">compute_csf_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_csf_ts&#39;</span><span class="p">)</span>
+    <span class="n">compute_csf_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;csf&#39;</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">compute_csf_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;csf_anat_file&#39;</span><span class="p">,</span> <span class="n">compute_csf_ts</span><span class="p">,</span> <span class="s1">&#39;filter_mask_file&#39;</span><span class="p">)</span>
+    
+    
+    
+    <span class="n">regress_covar</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">RegressCovar</span><span class="p">(),</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;masked_ts_file&#39;</span><span class="p">,</span><span class="s1">&#39;rp_file&#39;</span><span class="p">],</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;regress_covar&#39;</span><span class="p">)</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;masked_ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_wm_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;mean_wm_ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_csf_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;mean_csf_ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;rp_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;rp_file&#39;</span><span class="p">)</span>
+    
+    <span class="c1">##################################### compute correlations ####################################################</span>
+    
+    <span class="n">compute_conf_cor_mat</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeConfCorMat</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;compute_conf_cor_mat&#39;</span><span class="p">)</span>
+    <span class="n">compute_conf_cor_mat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="n">conf_interval_prob</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;resid_ts_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;subj_label_rois_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;labels_file&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pipeline</span>
+
+
+
+
+<div class="viewcode-block" id="create_pipeline_nii_to_conmat"><a class="viewcode-back" href="../../../graphpype/nii_to_conmat.html#graphpype.pipelines.nii_to_conmat.create_pipeline_nii_to_conmat">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_nii_to_conmat</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">ROI_mask_file</span><span class="p">,</span><span class="n">filter_gm_threshold</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s2">&quot;nii_to_conmat&quot;</span><span class="p">,</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Pipeline from nifti 4D (after preprocessing) to connectivity matrices</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs (inputnode):</span>
+<span class="sd">    </span>
+<span class="sd">        * nii_4D_file</span>
+<span class="sd">        * rp_file</span>
+<span class="sd">        * gm_anat_file</span>
+<span class="sd">        * wm_anat_file</span>
+<span class="sd">        * csf_anat_file</span>
+<span class="sd">        * ROI_coords_file</span>
+<span class="sd">        * ROI_MNI_coords_file</span>
+<span class="sd">        * ROI_labels_file</span>
+<span class="sd">    </span>
+<span class="sd">    Comments:</span>
+<span class="sd">    </span>
+<span class="sd">    Typically used after nipype preprocessing pipeline and before conmat_to_graph pipeline</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+    
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span><span class="s1">&#39;rp_file&#39;</span><span class="p">,</span><span class="s1">&#39;gm_anat_file&#39;</span><span class="p">,</span><span class="s1">&#39;wm_anat_file&#39;</span><span class="p">,</span><span class="s1">&#39;csf_anat_file&#39;</span><span class="p">,</span>
+                                                      <span class="s1">&#39;ROI_coords_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_MNI_coords_file&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+     
+    <span class="c1">###### Preprocess pipeline,</span>
+    <span class="n">filter_ROI_mask_with_GM</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">IntersectMask</span><span class="p">(),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;filter_ROI_mask_with_GM&#39;</span><span class="p">)</span>
+    
+    <span class="n">filter_ROI_mask_with_GM</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">indexed_rois_file</span> <span class="o">=</span> <span class="n">ROI_mask_file</span>
+    <span class="n">filter_ROI_mask_with_GM</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_thr</span> <span class="o">=</span> <span class="n">filter_gm_threshold</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_coords_file&#39;</span><span class="p">,</span> <span class="n">filter_ROI_mask_with_GM</span><span class="p">,</span> <span class="s1">&#39;coords_rois_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_MNI_coords_file&#39;</span><span class="p">,</span> <span class="n">filter_ROI_mask_with_GM</span><span class="p">,</span> <span class="s1">&#39;MNI_coords_rois_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">,</span> <span class="n">filter_ROI_mask_with_GM</span><span class="p">,</span> <span class="s1">&#39;labels_rois_file&#39;</span><span class="p">)</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;gm_anat_file&#39;</span><span class="p">,</span> <span class="n">filter_ROI_mask_with_GM</span><span class="p">,</span> <span class="s1">&#39;filter_mask_file&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#### Nodes version: use min_BOLD_intensity and return coords where signal is strong enough </span>
+    <span class="n">extract_mean_ROI_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_mean_ROI_ts&#39;</span><span class="p">)</span>
+    
+    
+    <span class="c1">#extract_mean_ROI_ts.inputs.indexed_rois_file = ROI_mask_file</span>
+    <span class="c1">#extract_mean_ROI_ts.inputs.coord_rois_file = ROI_coords_file</span>
+    <span class="c1">#extract_mean_ROI_ts.inputs.min_BOLD_intensity = min_BOLD_intensity</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filter_ROI_mask_with_GM</span><span class="p">,</span> <span class="s1">&#39;filtered_indexed_rois_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;indexed_rois_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filter_ROI_mask_with_GM</span><span class="p">,</span> <span class="s1">&#39;filtered_coords_rois_file&#39;</span><span class="p">,</span> <span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;coord_rois_file&#39;</span><span class="p">)</span>
+    
+    
+    <span class="c1">#### reslice white_matter_signal</span>
+    <span class="n">reslice_wm</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">spmu</span><span class="o">.</span><span class="n">Reslice</span><span class="p">(),</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;reslice_wm&#39;</span><span class="p">)</span>    
+    <span class="n">reslice_wm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">space_defining</span> <span class="o">=</span> <span class="n">ROI_mask_file</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;wm_anat_file&#39;</span><span class="p">,</span> <span class="n">reslice_wm</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#### extract white matter signal</span>
+    <span class="n">compute_wm_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_wm_ts&#39;</span><span class="p">)</span>
+    <span class="n">compute_wm_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;wm&#39;</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">compute_wm_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">reslice_wm</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">compute_wm_ts</span><span class="p">,</span> <span class="s1">&#39;filter_mask_file&#39;</span><span class="p">)</span>
+    
+    
+    <span class="c1">#### reslice csf</span>
+    <span class="n">reslice_csf</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">spmu</span><span class="o">.</span><span class="n">Reslice</span><span class="p">(),</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;reslice_csf&#39;</span><span class="p">)</span>    
+    <span class="n">reslice_csf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">space_defining</span> <span class="o">=</span> <span class="n">ROI_mask_file</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;csf_anat_file&#39;</span><span class="p">,</span> <span class="n">reslice_csf</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
+    
+    
+    <span class="c1">#### extract csf signal</span>
+    <span class="n">compute_csf_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;extract_csf_ts&#39;</span><span class="p">)</span>
+    <span class="n">compute_csf_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;csf&#39;</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">compute_csf_ts</span><span class="p">,</span> <span class="s1">&#39;file_4D&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">reslice_csf</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">compute_csf_ts</span><span class="p">,</span> <span class="s1">&#39;filter_mask_file&#39;</span><span class="p">)</span>
+    
+    
+    
+    <span class="c1">#### regress covariates</span>
+    
+    <span class="c1">### use R linear model to regress movement parameters, white matter and ventricule signals, and compute Z-score of the residuals</span>
+    <span class="c1">#regress_covar = pe.MapNode(interface = RegressCovar(filtered = False, normalized = False),iterfield = [&#39;masked_ts_file&#39;,&#39;rp_file&#39;,&#39;mean_wm_ts_file&#39;,&#39;mean_csf_ts_file&#39;],name=&#39;regress_covar&#39;)</span>
+    <span class="n">regress_covar</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">RegressCovar</span><span class="p">(),</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;masked_ts_file&#39;</span><span class="p">,</span><span class="s1">&#39;rp_file&#39;</span><span class="p">,</span><span class="s1">&#39;mean_wm_ts_file&#39;</span><span class="p">,</span><span class="s1">&#39;mean_csf_ts_file&#39;</span><span class="p">],</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;regress_covar&#39;</span><span class="p">)</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">extract_mean_ROI_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;masked_ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;rp_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;rp_file&#39;</span><span class="p">)</span>
+
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_wm_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;mean_wm_ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_csf_ts</span><span class="p">,</span> <span class="s1">&#39;mean_masked_ts_file&#39;</span><span class="p">,</span> <span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;mean_csf_ts_file&#39;</span><span class="p">)</span>
+    
+    <span class="c1">##################################### compute correlations ####################################################</span>
+    
+    <span class="n">compute_conf_cor_mat</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeConfCorMat</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;compute_conf_cor_mat&#39;</span><span class="p">)</span>
+    
+    <span class="n">compute_conf_cor_mat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="n">conf_interval_prob</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">regress_covar</span><span class="p">,</span> <span class="s1">&#39;resid_ts_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;ts_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filter_ROI_mask_with_GM</span><span class="p">,</span> <span class="s1">&#39;filtered_labels_rois_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;labels_file&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pipeline</span></div>
+
+<span class="c1">#ROI_mask_file,ROI_coords_file,ROI_MNI_coords_file,ROI_labels_file,</span>
+
+<div class="viewcode-block" id="create_pipeline_nii_to_weighted_conmat"><a class="viewcode-back" href="../../../graphpype/nii_to_conmat.html#graphpype.pipelines.nii_to_conmat.create_pipeline_nii_to_weighted_conmat">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_nii_to_weighted_conmat</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s2">&quot;nii_to_weighted_conmat&quot;</span><span class="p">,</span> <span class="n">concatenated_runs</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">mult_regnames</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">spm_reg</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Pipeline from resid_ts_file (after preprocessing) to weighted connectivity matrices</span>
+<span class="sd">    Involves a regressor file as wiehgt for computing weighted correlations</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs (inputnode):</span>
+<span class="sd">    </span>
+<span class="sd">        * resid_ts_file</span>
+<span class="sd">        * spm_mat_file (from a typical SPM level1 activation analysis)</span>
+<span class="sd">        * regress_names (names to look after in spm_mat_file)</span>
+<span class="sd">        * run_index</span>
+<span class="sd">        * ROI_labels_file</span>
+<span class="sd">        * reg_txt (if spm_reg = False)</span>
+<span class="sd">        </span>
+<span class="sd">    Comments:</span>
+<span class="sd">    </span>
+<span class="sd">    Typically used after previous pipeline (create_pipeline_nii_to_conmat) and before conmat_to_graph pipeline</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+    
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;resid_ts_file&#39;</span><span class="p">,</span><span class="s1">&#39;spm_mat_file&#39;</span><span class="p">,</span><span class="s1">&#39;regress_names&#39;</span><span class="p">,</span><span class="s1">&#39;run_index&#39;</span><span class="p">,</span><span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">,</span><span class="s1">&#39;reg_txt&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+     
+    <span class="k">if</span> <span class="n">spm_reg</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mult_regnames</span><span class="p">:</span>
+                
+            <span class="c1">#### extract regressor of interest from SPM.mat</span>
+            <span class="n">extract_cond</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">FindSPMRegressor</span><span class="p">(</span><span class="n">only_positive_values</span> <span class="o">=</span> <span class="kc">True</span><span class="p">),</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;regressor_name&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;extract_cond&#39;</span><span class="p">)</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;spm_mat_file&#39;</span><span class="p">,</span><span class="n">show_files</span><span class="p">),</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s1">&#39;spm_mat_file&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;regress_names&#39;</span><span class="p">,</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s1">&#39;regressor_name&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;run_index&#39;</span><span class="p">,</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s1">&#39;run_index&#39;</span><span class="p">)</span>
+            
+            <span class="c1">#extract_cond.inputs.run_index = 0</span>
+            <span class="n">extract_cond</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">concatenated_runs</span> <span class="o">=</span> <span class="n">concatenated_runs</span>
+            
+            <span class="c1">##################################### compute weighted correlations ####################################################</span>
+            
+            <span class="c1">########## confidence interval </span>
+            
+            <span class="n">compute_conf_cor_mat</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeConfCorMat</span><span class="p">(),</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weight_file&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;compute_conf_cor_mat&#39;</span><span class="p">)</span>
+            
+            <span class="n">compute_conf_cor_mat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="n">conf_interval_prob</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;resid_ts_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;ts_file&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">extract_cond</span><span class="p">,</span> <span class="s1">&#39;regressor_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;weight_file&#39;</span><span class="p">)</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;labels_file&#39;</span><span class="p">)</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            
+            <span class="c1">#### extract regressor of interest from SPM.mat</span>
+            <span class="n">extract_cond</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">FindSPMRegressor</span><span class="p">(</span><span class="n">only_positive_values</span> <span class="o">=</span> <span class="kc">True</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;extract_cond&#39;</span><span class="p">)</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;spm_mat_file&#39;</span><span class="p">,</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s1">&#39;spm_mat_file&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;regress_names&#39;</span><span class="p">,</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s1">&#39;regressor_name&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;run_index&#39;</span><span class="p">,</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s1">&#39;run_index&#39;</span><span class="p">)</span>
+            
+            <span class="c1">#extract_cond.inputs.run_index = 0</span>
+            <span class="n">extract_cond</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">concatenated_runs</span> <span class="o">=</span> <span class="n">concatenated_runs</span>
+            
+            <span class="c1">##################################### compute weighted correlations ####################################################</span>
+            
+            <span class="c1">########## confidence interval </span>
+            
+            <span class="n">compute_conf_cor_mat</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeConfCorMat</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;compute_conf_cor_mat&#39;</span><span class="p">)</span>
+            
+            <span class="n">compute_conf_cor_mat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="n">conf_interval_prob</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;resid_ts_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;ts_file&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">extract_cond</span><span class="p">,</span> <span class="s1">&#39;regressor_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;weight_file&#39;</span><span class="p">)</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;labels_file&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        
+            <span class="n">compute_conf_cor_mat</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeConfCorMat</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;compute_conf_cor_mat&#39;</span><span class="p">)</span>
+            
+            <span class="n">compute_conf_cor_mat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="n">conf_interval_prob</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;resid_ts_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;ts_file&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;reg_txt&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;weight_file&#39;</span><span class="p">)</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;ROI_labels_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s1">&#39;labels_file&#39;</span><span class="p">)</span>
+            
+    <span class="k">return</span> <span class="n">pipeline</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
