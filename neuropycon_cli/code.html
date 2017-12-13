@@ -95,7 +95,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../ephypype/ephypype.html">ephypype</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">neuropycon_cli</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="intro.html">Introducion</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Autodoc test</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Autodoc test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#neuropype">neuropype</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-conn">conn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-ds2fif">ds2fif</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-ep2ts">ep2ts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-epoch">epoch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-ica">ica</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-input">input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-mse">mse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-preproc">preproc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-psd">psd</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-neuropycon_cli.neuropycon">neuropycon_cli.neuropycon module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-neuropycon_cli">Module contents</a></li>
@@ -175,6 +189,210 @@
             
   <div class="section" id="autodoc-test">
 <h1>Autodoc test<a class="headerlink" href="#autodoc-test" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="neuropype">
+<h2>neuropype<a class="headerlink" href="#neuropype" title="Permalink to this headline">¶</a></h2>
+<p>Parallel processing of MEG/EEG data</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND1 <span class="o">[</span>ARGS<span class="o">]</span>... <span class="o">[</span>COMMAND2 <span class="o">[</span>ARGS<span class="o">]</span>...<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-neuropype-n">
+<code class="descname">-n</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--ncpu</code><code class="descclassname"> &lt;ncpu&gt;</code><a class="headerlink" href="#cmdoption-neuropype-n" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of CPUs to use takes effect only for MultiProc and PBS plugins</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-p">
+<code class="descname">-p</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--plugin</code><code class="descclassname"> &lt;plugin&gt;</code><a class="headerlink" href="#cmdoption-neuropype-p" title="Permalink to this definition">¶</a></dt>
+<dd><p>plugin to use; use Linear for single-thread computation, MultiProc parallel computation on local machine and PBS to compute on cluster</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-s">
+<code class="descname">-s</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--save-path</code><code class="descclassname"> &lt;save_path&gt;</code><a class="headerlink" href="#cmdoption-neuropype-s" title="Permalink to this definition">¶</a></dt>
+<dd><p>path to store results</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-w">
+<code class="descname">-w</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--workflow-name</code><code class="descclassname"> &lt;workflow_name&gt;</code><a class="headerlink" href="#cmdoption-neuropype-w" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of destination directory</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-verbose">
+<code class="descname">--verbose</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--no-verbose</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-neuropype-verbose" title="Permalink to this definition">¶</a></dt>
+<dd><p>verbosity level</p>
+</dd></dl>
+
+<div class="section" id="neuropype-conn">
+<h3>conn<a class="headerlink" href="#neuropype-conn" title="Permalink to this headline">¶</a></h3>
+<p>Create spectral connectivity node</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype conn <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-neuropype-conn-b">
+<code class="descname">-b</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--band</code><code class="descclassname"> &lt;band&gt;</code><a class="headerlink" href="#cmdoption-neuropype-conn-b" title="Permalink to this definition">¶</a></dt>
+<dd><p>frequency band</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-conn-m">
+<code class="descname">-m</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--method</code><code class="descclassname"> &lt;method&gt;</code><a class="headerlink" href="#cmdoption-neuropype-conn-m" title="Permalink to this definition">¶</a></dt>
+<dd><p>connectivity measure</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-conn-s">
+<code class="descname">-s</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--sfreq</code><code class="descclassname"> &lt;sfreq&gt;</code><a class="headerlink" href="#cmdoption-neuropype-conn-s" title="Permalink to this definition">¶</a></dt>
+<dd><p>data sampling frequency</p>
+</dd></dl>
+
+</div>
+<div class="section" id="neuropype-ds2fif">
+<h3>ds2fif<a class="headerlink" href="#neuropype-ds2fif" title="Permalink to this headline">¶</a></h3>
+<p>Create ds2fif node.</p>
+<p>Convert CTF .ds raw data to .fif format</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype ds2fif <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="neuropype-ep2ts">
+<h3>ep2ts<a class="headerlink" href="#neuropype-ep2ts" title="Permalink to this headline">¶</a></h3>
+<p>Create a node for epochs 2 npy timeseries conversion</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype ep2ts <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="neuropype-epoch">
+<h3>epoch<a class="headerlink" href="#neuropype-epoch" title="Permalink to this headline">¶</a></h3>
+<p>Epoch raw .fif resting state data</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype epoch <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-neuropype-epoch-l">
+<code class="descname">-l</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--length</code><code class="descclassname"> &lt;length&gt;</code><a class="headerlink" href="#cmdoption-neuropype-epoch-l" title="Permalink to this definition">¶</a></dt>
+<dd><p>epoch length</p>
+</dd></dl>
+
+</div>
+<div class="section" id="neuropype-ica">
+<h3>ica<a class="headerlink" href="#neuropype-ica" title="Permalink to this headline">¶</a></h3>
+<p>Compute ica solution for raw fif file</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype ica <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-neuropype-ica-n">
+<code class="descname">-n</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--n-components</code><code class="descclassname"> &lt;n_components&gt;</code><a class="headerlink" href="#cmdoption-neuropype-ica-n" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-ica-c">
+<code class="descname">-c</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--ecg-ch-name</code><code class="descclassname"> &lt;ecg_ch_name&gt;</code><a class="headerlink" href="#cmdoption-neuropype-ica-c" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-ica-o">
+<code class="descname">-o</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--eog-ch-name</code><code class="descclassname"> &lt;eog_ch_name&gt;</code><a class="headerlink" href="#cmdoption-neuropype-ica-o" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="neuropype-input">
+<h3>input<a class="headerlink" href="#neuropype-input" title="Permalink to this headline">¶</a></h3>
+<p>Create input node.</p>
+<p>Use wildcards to run computations on multiple files;
+To check yourself it’s a good idea to run ls command first like this:</p>
+<p>$ ls ./<em>/</em>.fif</p>
+<p>$ neuropycon input ./<em>/</em>.fif</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype input <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>FIF_FILES<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Arguments</p>
+<dl class="option">
+<dt id="cmdoption-neuropype-input-arg-fif-files">
+<code class="descname">FIF_FILES</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-neuropype-input-arg-fif-files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="neuropype-mse">
+<h3>mse<a class="headerlink" href="#neuropype-mse" title="Permalink to this headline">¶</a></h3>
+<p>Create multiscale entropy node</p>
+<p>Experimental functionality.
+Available only in mse branch of ephypype</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype mse <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-neuropype-mse-m">
+<code class="descname">-m</code><code class="descclassname"> &lt;m&gt;</code><a class="headerlink" href="#cmdoption-neuropype-mse-m" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-mse-r">
+<code class="descname">-r</code><code class="descclassname"> &lt;r&gt;</code><a class="headerlink" href="#cmdoption-neuropype-mse-r" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="neuropype-preproc">
+<h3>preproc<a class="headerlink" href="#neuropype-preproc" title="Permalink to this headline">¶</a></h3>
+<p>Create preprocessing node.</p>
+<p>Filter and downsample of raw .fif data</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype preproc <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-neuropype-preproc-l">
+<code class="descname">-l</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--l-freq</code><code class="descclassname"> &lt;l_freq&gt;</code><a class="headerlink" href="#cmdoption-neuropype-preproc-l" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-preproc-h">
+<code class="descname">-h</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--h-freq</code><code class="descclassname"> &lt;h_freq&gt;</code><a class="headerlink" href="#cmdoption-neuropype-preproc-h" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-preproc-d">
+<code class="descname">-d</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--ds_freq</code><code class="descclassname"> &lt;ds_freq&gt;</code><a class="headerlink" href="#cmdoption-neuropype-preproc-d" title="Permalink to this definition">¶</a></dt>
+<dd><p>downsampling frequency</p>
+</dd></dl>
+
+</div>
+<div class="section" id="neuropype-psd">
+<h3>psd<a class="headerlink" href="#neuropype-psd" title="Permalink to this headline">¶</a></h3>
+<p>Create power computation node.</p>
+<p>Lower and higher frequency bounds for computation
+can be changed</p>
+<p>Takes as input epochs in .fif format</p>
+<p>EXAMPLE:</p>
+<p>$ neuropycon pwr input ~/fif_epochs/<em>/</em>-epo.fif</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype psd <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-neuropype-psd-fmin">
+<code class="descname">--fmin</code><code class="descclassname"> &lt;fmin&gt;</code><a class="headerlink" href="#cmdoption-neuropype-psd-fmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>lower frequency bound; default=0</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-neuropype-psd-fmax">
+<code class="descname">--fmax</code><code class="descclassname"> &lt;fmax&gt;</code><a class="headerlink" href="#cmdoption-neuropype-psd-fmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>higher frequency bound; default=300</p>
+</dd></dl>
+
+</div>
+</div>
 </div>
 
 

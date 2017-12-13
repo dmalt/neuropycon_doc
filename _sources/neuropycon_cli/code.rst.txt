@@ -2,6 +2,6 @@ Autodoc test
 ===============
 
 
-.. click:: neuropype:cli
+.. click:: neuropycon_cli.neuropycon:cli
    :prog: neuropype
    :show-nested:
