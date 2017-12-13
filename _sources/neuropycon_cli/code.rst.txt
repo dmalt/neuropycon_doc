@@ -1,5 +1,5 @@
-Autodoc test
-===============
+CLI desctription
+================
 
 
 .. click:: neuropycon_cli.neuropycon:cli
