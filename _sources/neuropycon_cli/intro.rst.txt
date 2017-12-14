@@ -2,3 +2,63 @@ Introducion
 ===========
 
 .. Some introduction here
+
+Main idea behind neuropype_cli is to handle wildcards provided
+by UNIX shell to handle datasets with nested folders organization so the target
+files can be processed in parallel and so the results can be stored in
+a folder structure identical to the original one.
+
+Motivation
+----------
+
+A common scenario for MEEG datasets organization is when
+the recorded data for a number of subjects are stored in mutually alike subfolders
+with each subfolder's name depicting information about subject's number,
+recording condition, applied preprocessing steps etc.
+
+Sample folders layout might look as following:
+
+.. include:: folders_layout.txt
+   :literal:
+
+Here we have 5 subjects with subject IDs K0015, K0025, K0034, R0008, R0023.
+For each of them there are two .fif files with MEG recordings for eyes closed
+and eyes open condition.
+
+What we normally want to do with these files is to apply different processing
+steps to extract some meaningful information from the recordings.
+One way to go would be to manually deal with each file we want to process which
+isn't very handy for big datasets.
+
+A smarter strategy would be to make use of a regular organization of subfolders.
+Normally dataset processing requires applying a set of operations to similar files
+inside the folders tree and it would be nice if we could address these subgroups of
+similar files using some kind of matching patterns to apply a certain pipeline
+of processing operations to them. A perfect tool for that is provided by
+UNIX shell.
+
+Consider the following example:
+
+If we were to list all the fif files in the subdirectories
+we could use a shell command like this:
+
+.. code:: bash
+
+    ls ./NeuroPyConData/*/*.fif
+
+Where * symbol is a `wildcard`_ mapping one or more string literals.
+
+.. _wildcard: https://ryanstutorials.net/linuxtutorial/wildcards.php
+
+Now if we wanted to list only those files that contain recordings for
+the 'eyes closed' conditiion we would go like this:
+
+.. code:: bash
+
+    ls ./NeuroPyConData/*/*ec.fif
+
+Note 'ec' suffix et the end of our matching pattern.
+
+Similar syntax can be applied if we want to process matching files instead of just listing them.
+
+

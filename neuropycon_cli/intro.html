@@ -37,7 +37,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="neuropycon 0.1 documentation" href="../index.html"/>
         <link rel="up" title="neuropycon_cli" href="index.html"/>
-        <link rel="next" title="Autodoc test" href="code.html"/>
+        <link rel="next" title="CLI desctription" href="code.html"/>
         <link rel="prev" title="neuropycon_cli" href="index.html"/> 
 
   
@@ -94,8 +94,11 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../ephypype/ephypype.html">ephypype</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">neuropycon_cli</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Introducion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code.html">Autodoc test</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Introducion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#motivation">Motivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code.html">CLI desctription</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-neuropycon_cli.neuropycon">neuropycon_cli.neuropycon module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-neuropycon_cli">Module contents</a></li>
@@ -175,6 +178,80 @@
             
   <div class="section" id="introducion">
 <h1>Introducion<a class="headerlink" href="#introducion" title="Permalink to this headline">¶</a></h1>
+<p>Main idea behind neuropype_cli is to handle wildcards provided
+by UNIX shell to handle datasets with nested folders organization so the target
+files can be processed in parallel and so the results can be stored in
+a folder structure identical to the original one.</p>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>A common scenario for MEEG datasets organization is when
+the recorded data for a number of subjects are stored in mutually alike subfolders
+with each subfolder’s name depicting information about subject’s number,
+recording condition, applied preprocessing steps etc.</p>
+<p>Sample folders layout might look as following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>NeuroPyConData
+├── K0015
+│   ├── ecg_eog_info.pickle
+│   ├── ec_ipynb_report.html
+│   ├── eo_ipynb_report.html
+│   ├── K0015_rest_raw_tsss_mc_trans_ec.fif
+│   └── K0015_rest_raw_tsss_mc_trans_eo.fif
+├── K0025
+│   ├── ecg_eog_info.pickle
+│   ├── ec_ipynb_report.html
+│   ├── eo_ipynb_report.html
+│   ├── K0025_rest_raw_tsss_mc_trans_ec.fif
+│   └── K0025_rest_raw_tsss_mc_trans_eo.fif
+├── K0034
+│   ├── ecg_eog_info.pickle
+│   ├── ec_ipynb_report.html
+│   ├── eo_ipynb_report.html
+│   ├── K0034_rest_raw_tsss_mc_trans_ec.fif
+│   └── K0034_rest_raw_tsss_mc_trans_eo.fif
+├── R0008
+│   ├── ecg_eog_info.pickle
+│   ├── ec_ipynb_report.html
+│   ├── eo_ipynb_report.html
+│   ├── R0008_rest_raw_tsss_mc_trans_ec.fif
+│   └── R0008_rest_raw_tsss_mc_trans_eo.fif
+└── R0023
+    ├── ecg_eog_info.pickle
+    ├── ec_ipynb_report.html
+    ├── eo_ipynb_report.html
+    ├── R0023_rest_raw_tsss_mc_trans_ec.fif
+    └── R0023_rest_raw_tsss_mc_trans_eo.fif
+
+5 directories, 25 files
+</pre></div>
+</div>
+<p>Here we have 5 subjects with subject IDs K0015, K0025, K0034, R0008, R0023.
+For each of them there are two .fif files with MEG recordings for eyes closed
+and eyes open condition.</p>
+<p>What we normally want to do with these files is to apply different processing
+steps to extract some meaningful information from the recordings.
+One way to go would be to manually deal with each file we want to process which
+isn’t very handy for big datasets.</p>
+<p>A smarter strategy would be to make use of a regular organization of subfolders.
+Normally dataset processing requires applying a set of operations to similar files
+inside the folders tree and it would be nice if we could address these subgroups of
+similar files using some kind of matching patterns to apply a certain pipeline
+of processing operations to them. A perfect tool for that is provided by
+UNIX shell.</p>
+<p>Consider the following example:</p>
+<p>If we were to list all the fif files in the subdirectories
+we could use a shell command like this:</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">./</span><span class="n">NeuroPyConData</span><span class="o">/*/*.</span><span class="n">fif</span>
+</pre></div>
+</div>
+<p>Where * symbol is a <a class="reference external" href="https://ryanstutorials.net/linuxtutorial/wildcards.php">wildcard</a> mapping one or more string literals.</p>
+<p>Now if we wanted to list only those files that contain recordings for
+the ‘eyes closed’ conditiion we would go like this:</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">./</span><span class="n">NeuroPyConData</span><span class="o">/*/*</span><span class="n">ec</span><span class="o">.</span><span class="n">fif</span>
+</pre></div>
+</div>
+<p>Note ‘ec’ suffix et the end of our matching pattern.</p>
+<p>Similar syntax can be applied if we want to process matching files instead of just listing them.</p>
+</div>
 </div>
 
 
@@ -187,7 +264,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="code.html" class="btn btn-neutral float-right" title="Autodoc test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="code.html" class="btn btn-neutral float-right" title="CLI desctription" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral" title="neuropycon_cli" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

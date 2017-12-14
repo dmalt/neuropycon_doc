@@ -9,7 +9,7 @@ neuropycon_cli
 **************
 
 neuropycon_cli package is a commandline interface to ephypype functions designed
-to make the best use of UNIX shell capabilities.
+to make the best use of UNIX shell capabilities for parallel processing of MEEG datasets.
 
 .. toctree::
    :maxdepth: 2
