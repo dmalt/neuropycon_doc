@@ -196,7 +196,7 @@
 <h2>ExtractTS<a class="headerlink" href="#extractts" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="graphpype.nodes.correl_mat.ExtractTS">
-<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">ExtractTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#ExtractTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.ExtractTS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">ExtractTS</code><span class="sig-paren">(</span><em>from_file=None</em>, <em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#ExtractTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.ExtractTS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description: Extract time series from a labelled mask in Nifti Format where all ROIs have the same index</p>
 <p>Inputs:</p>
 <blockquote>
@@ -237,7 +237,7 @@
 <h2>IntersectMask<a class="headerlink" href="#intersectmask" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="graphpype.nodes.correl_mat.IntersectMask">
-<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">IntersectMask</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#IntersectMask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.IntersectMask" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">IntersectMask</code><span class="sig-paren">(</span><em>from_file=None</em>, <em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#IntersectMask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.IntersectMask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <p>Keep only values of indexed mask where filter_mask is present.
 Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filtered mask</p>
@@ -256,6 +256,8 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <dd>type = File, desc=’MNI coords txt file’</dd>
 <dt>filter_thr:</dt>
 <dd>type = Float, default = 0.99, usedefault = True, desc=’Value to threshold filter_mask’</dd>
+<dt>background_val:</dt>
+<dd>type = Float, -1.0, desc=’value for background (i.e. outside brain)’,usedefault = True</dd>
 </dl>
 </div></blockquote>
 <p>Outputs:</p>
@@ -278,7 +280,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <h2>ExtractMeanTS<a class="headerlink" href="#extractmeants" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="graphpype.nodes.correl_mat.ExtractMeanTS">
-<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">ExtractMeanTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#ExtractMeanTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.ExtractMeanTS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">ExtractMeanTS</code><span class="sig-paren">(</span><em>from_file=None</em>, <em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#ExtractMeanTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.ExtractMeanTS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <p>Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1 (mask_file), or from a percent mask (filter_mask_file) with values higher than threshold (filter_thr)</p>
 <p>Inputs:</p>
@@ -312,7 +314,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <h2>ConcatTS<a class="headerlink" href="#concatts" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="graphpype.nodes.correl_mat.ConcatTS">
-<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">ConcatTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#ConcatTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.ConcatTS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">ConcatTS</code><span class="sig-paren">(</span><em>from_file=None</em>, <em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#ConcatTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.ConcatTS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <p>Concatenate time series</p>
 <p>Inputs:</p>
@@ -338,7 +340,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <h2>MergeTS<a class="headerlink" href="#mergets" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="graphpype.nodes.correl_mat.MergeTS">
-<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">MergeTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#MergeTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.MergeTS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">MergeTS</code><span class="sig-paren">(</span><em>from_file=None</em>, <em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#MergeTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.MergeTS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <p>Merges time series from several files</p>
 <p>Inputs:</p>
@@ -364,7 +366,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <h2>SeparateTS<a class="headerlink" href="#separatets" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="graphpype.nodes.correl_mat.SeparateTS">
-<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">SeparateTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#SeparateTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.SeparateTS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">SeparateTS</code><span class="sig-paren">(</span><em>from_file=None</em>, <em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#SeparateTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.SeparateTS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <p>Save all time series from a npy file to several single time series npy files</p>
 <p>Inputs:</p>
@@ -390,7 +392,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <h2>FindSPMRegressor<a class="headerlink" href="#findspmregressor" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="graphpype.nodes.correl_mat.FindSPMRegressor">
-<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">FindSPMRegressor</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#FindSPMRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.FindSPMRegressor" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">FindSPMRegressor</code><span class="sig-paren">(</span><em>from_file=None</em>, <em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#FindSPMRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.FindSPMRegressor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <p>Find regressor in SPM.mat and save it as timeseries txt file</p>
 <p>Inputs:</p>
@@ -424,7 +426,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <h2>ComputeConfCorMat<a class="headerlink" href="#computeconfcormat" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="graphpype.nodes.correl_mat.ComputeConfCorMat">
-<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">ComputeConfCorMat</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#ComputeConfCorMat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.ComputeConfCorMat" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">graphpype.nodes.correl_mat.</code><code class="descname">ComputeConfCorMat</code><span class="sig-paren">(</span><em>from_file=None</em>, <em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpype/nodes/correl_mat.html#ComputeConfCorMat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpype.nodes.correl_mat.ComputeConfCorMat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <p>Compute correlation between time series, with a given confidence interval. If weight_file is specified, used for weighted correlation</p>
 <p>Inputs:</p>

@@ -99,7 +99,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#neuropype">neuropype</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#neuropype-conn">conn</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neuropype-ds2fif">ds2fif</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#neuropype-ep2ts">ep2ts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neuropype-ep2npy">ep2npy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neuropype-epoch">epoch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neuropype-ica">ica</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neuropype-input">input</a></li>
@@ -228,7 +228,7 @@
 
 <div class="section" id="neuropype-conn">
 <h3>conn<a class="headerlink" href="#neuropype-conn" title="Permalink to this headline">¶</a></h3>
-<p>Create spectral connectivity node</p>
+<p>Compute spectral connectivity</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype conn <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -254,16 +254,15 @@
 </div>
 <div class="section" id="neuropype-ds2fif">
 <h3>ds2fif<a class="headerlink" href="#neuropype-ds2fif" title="Permalink to this headline">¶</a></h3>
-<p>Create ds2fif node.</p>
 <p>Convert CTF .ds raw data to .fif format</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype ds2fif <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="neuropype-ep2ts">
-<h3>ep2ts<a class="headerlink" href="#neuropype-ep2ts" title="Permalink to this headline">¶</a></h3>
-<p>Create a node for epochs 2 npy timeseries conversion</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype ep2ts <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="section" id="neuropype-ep2npy">
+<h3>ep2npy<a class="headerlink" href="#neuropype-ep2npy" title="Permalink to this headline">¶</a></h3>
+<p>Convert .fif epochs to npy timeseries</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype ep2npy <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 </div>
@@ -306,11 +305,11 @@
 </div>
 <div class="section" id="neuropype-input">
 <h3>input<a class="headerlink" href="#neuropype-input" title="Permalink to this headline">¶</a></h3>
-<p>Create input node.</p>
+<p>Specify input.</p>
 <p>Use wildcards to run computations on multiple files;
 To check yourself it’s a good idea to run ls command first like this:</p>
 <p>$ ls ./<em>/</em>.fif</p>
-<p>$ neuropycon input ./<em>/</em>.fif</p>
+<p>$ neuropycon &lt;…&gt; input ./<em>/</em>.fif</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype input <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>FIF_FILES<span class="o">]</span>...
 </pre></div>
 </div>
@@ -324,7 +323,7 @@ To check yourself it’s a good idea to run ls command first like this:</p>
 </div>
 <div class="section" id="neuropype-mse">
 <h3>mse<a class="headerlink" href="#neuropype-mse" title="Permalink to this headline">¶</a></h3>
-<p>Create multiscale entropy node</p>
+<p>Compute multiscale entropy node</p>
 <p>Experimental functionality.
 Available only in mse branch of ephypype</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype mse <span class="o">[</span>OPTIONS<span class="o">]</span>
@@ -344,8 +343,7 @@ Available only in mse branch of ephypype</p>
 </div>
 <div class="section" id="neuropype-preproc">
 <h3>preproc<a class="headerlink" href="#neuropype-preproc" title="Permalink to this headline">¶</a></h3>
-<p>Create preprocessing node.</p>
-<p>Filter and downsample of raw .fif data</p>
+<p>Filter and downsample data.</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span>neuropype preproc <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -369,7 +367,7 @@ Available only in mse branch of ephypype</p>
 </div>
 <div class="section" id="neuropype-psd">
 <h3>psd<a class="headerlink" href="#neuropype-psd" title="Permalink to this headline">¶</a></h3>
-<p>Create power computation node.</p>
+<p>Compute power spectral density.</p>
 <p>Lower and higher frequency bounds for computation
 can be changed</p>
 <p>Takes as input epochs in .fif format</p>

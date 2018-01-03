@@ -183,8 +183,8 @@
                            <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">ecg_ch_name</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;name of ecg channel&#39;</span><span class="p">)</span>
     <span class="n">eog_ch_name</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;name of eog channel&#39;</span><span class="p">)</span>
-    <span class="n">n_components</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;number of ica components&#39;</span><span class="p">)</span></div>
-
+    <span class="n">n_components</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;number of ica components&#39;</span><span class="p">)</span>
+    <span class="n">reject</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Dict</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;rejection parameters&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CompIcaOutputSpec"><a class="viewcode-back" href="../../../../ephypype/ephypype.interfaces.mne.html#ephypype.interfaces.mne.preproc.CompIcaOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">CompIcaOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Output specification for CompIca&quot;&quot;&quot;</span>
@@ -216,9 +216,13 @@
         <span class="n">ecg_ch_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ecg_ch_name</span>
         <span class="n">eog_ch_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">eog_ch_name</span>
         <span class="n">n_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_components</span>
+        <span class="n">reject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">reject</span>
 
+        <span class="k">if</span> <span class="n">reject</span> <span class="o">==</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span><span class="p">:</span>
+            <span class="n">reject</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mag</span><span class="o">=</span><span class="mf">4e-12</span><span class="p">,</span> <span class="n">grad</span><span class="o">=</span><span class="mf">4000e-13</span><span class="p">)</span>
+            
         <span class="n">ica_output</span> <span class="o">=</span> <span class="n">compute_ica</span><span class="p">(</span><span class="n">fif_file</span><span class="p">,</span> <span class="n">ecg_ch_name</span><span class="p">,</span>
-                                 <span class="n">eog_ch_name</span><span class="p">,</span> <span class="n">n_components</span><span class="p">)</span>
+                                 <span class="n">eog_ch_name</span><span class="p">,</span> <span class="n">n_components</span><span class="p">,</span> <span class="n">reject</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ica_file</span> <span class="o">=</span> <span class="n">ica_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">ica_output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ica_ts_file</span> <span class="o">=</span> <span class="n">ica_output</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>

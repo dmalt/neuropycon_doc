@@ -170,19 +170,33 @@
 
 <span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="k">import</span> <span class="n">BaseInterface</span><span class="p">,</span> \
     <span class="n">BaseInterfaceInputSpec</span><span class="p">,</span> <span class="n">traits</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">TraitedSpec</span>
-<span class="kn">from</span> <span class="nn">ephypype.power</span> <span class="k">import</span> <span class="n">compute_and_save_psd</span>
+<span class="kn">from</span> <span class="nn">ephypype.power</span> <span class="k">import</span> <span class="n">compute_and_save_psd</span><span class="p">,</span> <span class="n">compute_and_save_src_psd</span>
 
 
 <span class="k">class</span> <span class="nc">PowerInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="n">data_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                            <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;File with mne.Epochs or mne.io.Raw&#39;</span><span class="p">,</span>
+                            <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;File with mne.Epochs or mne.io.Raw or .npy&#39;</span><span class="p">,</span>
                             <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
     <span class="n">fmin</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;lower psd frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">fmax</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;higher psd frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">sfreq</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;sampling frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">nfft</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;the length of FFT used&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">overlap</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;The number of points of overlap between segments&#39;</span><span class="p">,</span> 
+                           <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
     <span class="n">method</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="s1">&#39;multitaper&#39;</span><span class="p">,</span>
                          <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;power spectral density computation method&#39;</span><span class="p">)</span>
+
     <span class="n">is_epoched</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;if true input data are mne.Epochs&#39;</span><span class="p">,</span>
                              <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">is_sensor_space</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                  <span class="n">dedesc</span><span class="o">=</span><span class="s1">&#39;True for PSD on sensor space </span><span class="se">\</span>
+<span class="s1">                                  False for PSD on source&#39;</span><span class="p">,</span>
+                                  <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">PowerOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
@@ -198,14 +212,26 @@
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PowerOutputSpec</span>
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
-        <span class="nb">print</span> <span class="s1">&#39;in Power&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;in Power&#39;</span><span class="p">)</span>
         <span class="n">data_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_file</span>
+        <span class="n">sfreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sfreq</span>
         <span class="n">fmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fmin</span>
         <span class="n">fmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fmax</span>
+        <span class="n">nfft</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">nfft</span>
+        <span class="n">overlap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">overlap</span>
         <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">method</span>
         <span class="n">is_epoched</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_epoched</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">psds_file</span> <span class="o">=</span> <span class="n">compute_and_save_psd</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span>
-                                              <span class="n">is_epoched</span><span class="p">)</span>
+        <span class="n">is_sensor_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_sensor_space</span>
+
+        <span class="k">if</span> <span class="n">is_sensor_space</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">psds_file</span> <span class="o">=</span> <span class="n">compute_and_save_psd</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span>
+                                                  <span class="n">method</span><span class="p">,</span> <span class="n">is_epoched</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">psds_file</span> <span class="o">=</span> <span class="n">compute_and_save_src_psd</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">sfreq</span><span class="p">,</span>
+                                                      <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="n">fmax</span><span class="p">,</span>
+                                                      <span class="n">n_fft</span><span class="o">=</span><span class="n">nfft</span><span class="p">,</span>
+                                                      <span class="n">n_overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">,</span>
+                                                      <span class="n">is_epoched</span><span class="o">=</span><span class="n">is_epoched</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">runtime</span>
 
     <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

@@ -280,7 +280,10 @@
 
     <span class="n">sep</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Separator between time points&quot;</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-
+    <span class="n">keep_electrodes</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                   <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;keep_electrodes&#39;</span><span class="p">,</span>
+                                   <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                   
 <div class="viewcode-block" id="ImportBrainVisionAsciiOutputSpec"><a class="viewcode-back" href="../../../ephypype/ephypype.nodes.html#ephypype.nodes.import_data.ImportBrainVisionAsciiOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">ImportBrainVisionAsciiOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Output specification for ImportBrainVisionAscii&quot;&quot;&quot;</span>
 
@@ -343,8 +346,12 @@
 
         <span class="n">sep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sep</span>
 
+        <span class="n">keep_electrodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">keep_electrodes</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="n">keep_electrodes</span><span class="p">)</span>
+        
         <span class="n">split_txt</span><span class="p">(</span><span class="n">txt_file</span><span class="o">=</span><span class="n">txt_file</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="n">sample_size</span><span class="p">,</span>
-                  <span class="n">sep_label_name</span><span class="o">=</span><span class="n">sep_label_name</span><span class="p">,</span> <span class="n">repair</span><span class="o">=</span><span class="n">repair</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">)</span>
+                  <span class="n">sep_label_name</span><span class="o">=</span><span class="n">sep_label_name</span><span class="p">,</span> <span class="n">repair</span><span class="o">=</span><span class="n">repair</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">,</span> <span class="n">keep_electrodes</span> <span class="o">=</span> <span class="n">keep_electrodes</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">runtime</span>
 
@@ -354,7 +361,7 @@
 
         <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;elec_names_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;correct_channel_names.txt&#39;</span><span class="p">)</span>
 
-        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;splitted_ts_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;uplitted_ts.npy&#39;</span><span class="p">)</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;splitted_ts_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;splitted_ts.npy&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">outputs</span></div>
 
@@ -369,6 +376,10 @@
     <span class="n">sample_size</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Size (number of time points) of all samples&#39;</span><span class="p">,</span>
                                <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+    <span class="n">keep_electrodes</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                   <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;keep_electrodes&#39;</span><span class="p">,</span>
+                                   <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    
 <div class="viewcode-block" id="ImportBrainVisionVhdrOutputSpec"><a class="viewcode-back" href="../../../ephypype/ephypype.nodes.html#ephypype.nodes.import_data.ImportBrainVisionVhdrOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">ImportBrainVisionVhdrOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Output specification for ImportBrainVisionVhdr&quot;&quot;&quot;</span>
 
@@ -403,23 +414,49 @@
 
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ImportBrainVisionAsciiInputSpec</span>
-    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ImportBrainVisionAsciiOutputSpec</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ImportBrainVisionVhdrInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ImportBrainVisionVhdrOutputSpec</span>
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
 
-        <span class="kn">from</span> <span class="nn">ephypype.import_txt</span> <span class="k">import</span> <span class="n">split_vhdr</span>
-
+        <span class="kn">from</span> <span class="nn">ephypype.import_txt</span> <span class="k">import</span> <span class="n">read_brainvision_vhdr</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        
         <span class="n">vhdr_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">vhdr_file</span>
 
         <span class="n">sample_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sample_size</span>
 
-        <span class="n">np_splitted_ts</span><span class="p">,</span><span class="n">ch_names</span> <span class="o">=</span> <span class="n">split_vhdr</span><span class="p">(</span><span class="n">vhdr_file</span><span class="o">=</span><span class="n">vhdr_file</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="n">sample_size</span><span class="p">)</span>
-
+        <span class="n">keep_electrodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">keep_electrodes</span>
+        
+        <span class="n">np_splitted_ts</span><span class="p">,</span><span class="n">ch_names</span> <span class="o">=</span> <span class="n">read_brainvision_vhdr</span><span class="p">(</span><span class="n">vhdr_file</span><span class="o">=</span><span class="n">vhdr_file</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="n">sample_size</span><span class="p">)</span>
+        
+        <span class="n">np_ch_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ch_names</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;str&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">keep_electrodes</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            
+            
+            <span class="nb">print</span><span class="p">(</span><span class="n">keep_electrodes</span><span class="p">)</span>
+        
+            <span class="n">list_keep_electrodes</span> <span class="o">=</span> <span class="n">keep_electrodes</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+        
+            <span class="nb">print</span><span class="p">(</span><span class="n">list_keep_electrodes</span><span class="p">)</span>
+            
+            <span class="n">keep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ch_name</span> <span class="ow">in</span> <span class="n">list_keep_electrodes</span> <span class="k">for</span> <span class="n">ch_name</span> <span class="ow">in</span> <span class="n">ch_names</span><span class="p">],</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;int&#39;</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span>
+            <span class="n">keep_ch_names</span> <span class="o">=</span> <span class="n">np_ch_names</span><span class="p">[</span><span class="n">keep</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">keep_ch_names</span><span class="p">)</span> 
+            
+            <span class="n">keep_np_splitted_ts</span> <span class="o">=</span> <span class="n">np_splitted_ts</span><span class="p">[:,</span><span class="n">keep</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,:]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">keep_np_splitted_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            
+            <span class="n">np_splitted_ts</span> <span class="o">=</span> <span class="n">keep_np_splitted_ts</span>
+            <span class="n">np_ch_names</span> <span class="o">=</span> <span class="n">keep_ch_names</span>
+        
         <span class="c1">### saving</span>
         <span class="n">ch_names_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;correct_channel_names.txt&quot;</span><span class="p">)</span>
         
-        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">ch_names_file</span><span class="p">,</span><span class="n">ch_names</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">ch_names_file</span><span class="p">,</span><span class="n">np_ch_names</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span>
         
         <span class="n">splitted_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;splitted_ts.npy&quot;</span><span class="p">)</span>
 

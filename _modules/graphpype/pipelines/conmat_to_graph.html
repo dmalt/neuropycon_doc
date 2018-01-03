@@ -185,8 +185,7 @@
 <span class="c1">#import imp</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="c1"># import igraph</span>
-    <span class="kn">import</span> <span class="nn">jgraph</span>
+    <span class="kn">import</span> <span class="nn">igraph</span>
     <span class="n">can_plot_igraph</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="kn">from</span> <span class="nn">graphpype.interfaces.plot_igraph.plots</span> <span class="k">import</span> <span class="n">PlotIGraphModules</span>
 
@@ -220,9 +219,61 @@
     
     <span class="k">if</span> <span class="n">plot</span><span class="o">==</span><span class="kc">True</span> <span class="ow">and</span> <span class="n">can_plot_igraph</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
         
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning, no igraph is installed, plot is set back to zero.&quot;</span><span class="p">)</span>
+        
         <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span>
         
-    <span class="k">if</span> <span class="n">multi</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">multi</span><span class="p">:</span>
+        
+        <span class="c1">################################################ density-based graphs #################################################</span>
+        
+        <span class="c1">#### net_list</span>
+        <span class="n">compute_net_List</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeNetList</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;compute_net_List&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Z_cor_mat_file&quot;</span><span class="p">])</span>
+        <span class="n">compute_net_List</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">density</span> <span class="o">=</span> <span class="n">con_den</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;conmat_file&#39;</span><span class="p">,</span><span class="n">compute_net_List</span><span class="p">,</span> <span class="s1">&#39;Z_cor_mat_file&#39;</span><span class="p">)</span>
+        
+        <span class="c1">##### radatools ################################################################</span>
+
+        <span class="c1">### prepare net_list for radatools processing  </span>
+        <span class="n">prep_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PrepRada</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;prep_rada&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;net_List_file&quot;</span><span class="p">])</span>
+        <span class="n">prep_rada</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">network_type</span> <span class="o">=</span> <span class="s2">&quot;U&quot;</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_net_List</span><span class="p">,</span> <span class="s1">&#39;net_List_file&#39;</span><span class="p">,</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;net_List_file&#39;</span><span class="p">)</span>
+        
+        
+        <span class="k">if</span> <span class="n">mod</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                
+            <span class="c1">### compute community with radatools</span>
+            <span class="n">community_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">CommRada</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;community_rada&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Pajek_net_file&quot;</span><span class="p">])</span>
+            <span class="n">community_rada</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">optim_seq</span> <span class="o">=</span> <span class="n">optim_seq</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">community_rada</span><span class="p">,</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
+            
+            <span class="c1">### node roles</span>
+            <span class="n">node_roles</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeNodeRoles</span><span class="p">(</span><span class="n">role_type</span> <span class="o">=</span> <span class="s2">&quot;4roles&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;node_roles&#39;</span><span class="p">,</span> <span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="s1">&#39;rada_lol_file&#39;</span><span class="p">])</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">node_roles</span><span class="p">,</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">community_rada</span><span class="p">,</span> <span class="s1">&#39;rada_lol_file&#39;</span><span class="p">,</span><span class="n">node_roles</span><span class="p">,</span><span class="s1">&#39;rada_lol_file&#39;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">plot</span> <span class="o">==</span> <span class="kc">True</span> <span class="p">:</span>
+                    
+                <span class="c1">#### plot_igraph_modules_rada</span>
+                <span class="n">plot_igraph_modules_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PlotIGraphModules</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;plot_igraph_modules_rada&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="s1">&#39;rada_lol_file&#39;</span><span class="p">,</span><span class="s1">&#39;node_roles_file&#39;</span><span class="p">])</span>
+                
+                <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
+                <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">community_rada</span><span class="p">,</span> <span class="s1">&#39;rada_lol_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s1">&#39;rada_lol_file&#39;</span><span class="p">)</span>
+                
+                <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node_roles</span><span class="p">,</span> <span class="s1">&#39;node_roles_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s1">&#39;node_roles_file&#39;</span><span class="p">)</span>
+                <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;labels_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s1">&#39;labels_file&#39;</span><span class="p">)</span>
+                
+    
+        <span class="c1">############ compute network properties with rada</span>
+        <span class="n">net_prop</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">NetPropRada</span><span class="p">(</span><span class="n">optim_seq</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;net_prop&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Pajek_net_file&quot;</span><span class="p">])</span>
+        <span class="c1">#net_prop.inputs.radatools_path = radatools_path</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">net_prop</span><span class="p">,</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
         
         <span class="c1">################################################ density-based graphs</span>
         
@@ -276,59 +327,6 @@
         
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">net_prop</span><span class="p">,</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
         
-        
-    <span class="k">else</span><span class="p">:</span>
-        
-        <span class="c1">################################################ density-based graphs #################################################</span>
-        
-        <span class="c1">#### net_list</span>
-        <span class="n">compute_net_List</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeNetList</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;compute_net_List&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Z_cor_mat_file&quot;</span><span class="p">])</span>
-        <span class="n">compute_net_List</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">density</span> <span class="o">=</span> <span class="n">con_den</span>
-        
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;conmat_file&#39;</span><span class="p">,</span><span class="n">compute_net_List</span><span class="p">,</span> <span class="s1">&#39;Z_cor_mat_file&#39;</span><span class="p">)</span>
-        
-        <span class="c1">##### radatools ################################################################</span>
-
-        <span class="c1">### prepare net_list for radatools processing  </span>
-        <span class="n">prep_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PrepRada</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;prep_rada&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;net_List_file&quot;</span><span class="p">])</span>
-        <span class="n">prep_rada</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">network_type</span> <span class="o">=</span> <span class="s2">&quot;U&quot;</span>
-        
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_net_List</span><span class="p">,</span> <span class="s1">&#39;net_List_file&#39;</span><span class="p">,</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;net_List_file&#39;</span><span class="p">)</span>
-        
-        
-        <span class="k">if</span> <span class="n">mod</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-                
-            <span class="c1">### compute community with radatools</span>
-            <span class="n">community_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">CommRada</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;community_rada&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Pajek_net_file&quot;</span><span class="p">])</span>
-            <span class="n">community_rada</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">optim_seq</span> <span class="o">=</span> <span class="n">optim_seq</span>
-            
-            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">community_rada</span><span class="p">,</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
-            
-            <span class="c1">### node roles</span>
-            <span class="n">node_roles</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeNodeRoles</span><span class="p">(</span><span class="n">role_type</span> <span class="o">=</span> <span class="s2">&quot;4roles&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;node_roles&#39;</span><span class="p">,</span> <span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="s1">&#39;rada_lol_file&#39;</span><span class="p">])</span>
-            
-            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">node_roles</span><span class="p">,</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
-            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">community_rada</span><span class="p">,</span> <span class="s1">&#39;rada_lol_file&#39;</span><span class="p">,</span><span class="n">node_roles</span><span class="p">,</span><span class="s1">&#39;rada_lol_file&#39;</span><span class="p">)</span>
-            
-            <span class="k">if</span> <span class="n">plot</span> <span class="o">==</span> <span class="kc">True</span> <span class="p">:</span>
-                    
-                <span class="c1">#### plot_igraph_modules_rada</span>
-                <span class="n">plot_igraph_modules_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PlotIGraphModules</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;plot_igraph_modules_rada&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="s1">&#39;rada_lol_file&#39;</span><span class="p">,</span><span class="s1">&#39;node_roles_file&#39;</span><span class="p">])</span>
-                
-                <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
-                <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">community_rada</span><span class="p">,</span> <span class="s1">&#39;rada_lol_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s1">&#39;rada_lol_file&#39;</span><span class="p">)</span>
-                
-                <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node_roles</span><span class="p">,</span> <span class="s1">&#39;node_roles_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s1">&#39;node_roles_file&#39;</span><span class="p">)</span>
-                <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s1">&#39;labels_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s1">&#39;labels_file&#39;</span><span class="p">)</span>
-                
-    
-        <span class="c1">############ compute network properties with rada</span>
-        <span class="n">net_prop</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">NetPropRada</span><span class="p">(</span><span class="n">optim_seq</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;net_prop&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Pajek_net_file&quot;</span><span class="p">])</span>
-        <span class="c1">#net_prop.inputs.radatools_path = radatools_path</span>
-        
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">prep_rada</span><span class="p">,</span> <span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">net_prop</span><span class="p">,</span><span class="s1">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
-
-
     <span class="k">return</span> <span class="n">pipeline</span></div>
 
     

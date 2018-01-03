@@ -245,11 +245,11 @@
         <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">threshold</span>
         <span class="n">density</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">density</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;loading Z_cor_mat_file&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loading Z_cor_mat_file&quot;</span><span class="p">)</span>
         
         <span class="n">Z_cor_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">Z_cor_mat_file</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">threshold</span><span class="p">,</span><span class="n">density</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span><span class="n">density</span><span class="p">)</span>
                 
         <span class="k">if</span> <span class="n">threshold</span> <span class="o">!=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span> <span class="ow">and</span> <span class="n">density</span> <span class="o">==</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span><span class="p">:</span>
             
@@ -257,20 +257,20 @@
         
             <span class="n">Z_list</span> <span class="o">=</span> <span class="n">return_net_list</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span>
         
-            <span class="nb">print</span> <span class="n">Z_list</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">Z_list</span><span class="p">)</span>
             
         <span class="k">elif</span> <span class="n">threshold</span> <span class="o">==</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span> <span class="ow">and</span> <span class="n">density</span> <span class="o">!=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span><span class="p">:</span>
             
-            <span class="nb">print</span> <span class="n">density</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">density</span><span class="p">)</span>
             
             <span class="n">Z_list</span> <span class="o">=</span> <span class="n">return_net_list</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span>
-            <span class="nb">print</span> <span class="n">Z_list</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">Z_list</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="n">N</span> <span class="o">=</span>  <span class="nb">int</span><span class="p">(</span><span class="n">Z_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">density</span><span class="p">)</span>
             
             <span class="n">all_sorted_indexes</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Z_list</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]))</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
             
-            <span class="nb">print</span> <span class="n">all_sorted_indexes</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">all_sorted_indexes</span><span class="p">)</span>
             <span class="n">sorted_indexes</span> <span class="o">=</span>  <span class="n">all_sorted_indexes</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span>
             
             <span class="n">max_thr_for_den_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;max_thr_for_den.txt&#39;</span><span class="p">)</span>
@@ -286,14 +286,14 @@
 
             <span class="n">Z_list</span> <span class="o">=</span> <span class="n">Z_list</span><span class="p">[</span><span class="n">sorted_indexes</span><span class="p">,:]</span>
             
-            <span class="nb">print</span> <span class="n">Z_list</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">Z_list</span><span class="p">)</span>
             
         <span class="k">else</span><span class="p">:</span>
             
             <span class="n">Z_list</span> <span class="o">=</span> <span class="n">return_net_list</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span>
         
         <span class="c1">## Z correl_mat as list of edges</span>
-        <span class="nb">print</span> <span class="s2">&quot;saving Z_list as list of edges&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saving Z_list as list of edges&quot;</span><span class="p">)</span>
         
         <span class="n">net_List_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;Z_List.txt&#39;</span><span class="p">)</span>
         
@@ -345,7 +345,7 @@
         <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">threshold</span>
         
         
-        <span class="nb">print</span> <span class="s2">&quot;loading int_mat_file&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loading int_mat_file&quot;</span><span class="p">)</span>
         
         <span class="n">int_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">int_mat_file</span><span class="p">)</span>
         
@@ -364,7 +364,7 @@
             
         <span class="c1">## int correl_mat as list of edges</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;saving int_list as list of edges&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saving int_list as list of edges&quot;</span><span class="p">)</span>
         
         <span class="n">net_List_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;int_List.txt&#39;</span><span class="p">)</span>
         
@@ -448,25 +448,25 @@
         <span class="n">Pajek_net_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">Pajek_net_file</span>
         
         
-        <span class="nb">print</span> <span class="s1">&#39;Loading Pajek_net_file for reading node_corres&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loading Pajek_net_file for reading node_corres&#39;</span><span class="p">)</span>
         
         <span class="n">node_corres</span><span class="p">,</span><span class="n">sparse_mat</span> <span class="o">=</span> <span class="n">read_Pajek_corres_nodes_and_sparse_matrix</span><span class="p">(</span><span class="n">Pajek_net_file</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">sparse_mat</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sparse_mat</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
         
-        <span class="nb">print</span> <span class="n">node_corres</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">sparse_mat</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node_corres</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">sparse_mat</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;Loading community belonging file &quot;</span> <span class="o">+</span> <span class="n">rada_lol_file</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading community belonging file &quot;</span> <span class="o">+</span> <span class="n">rada_lol_file</span><span class="p">)</span>
 
         <span class="n">community_vect</span> <span class="o">=</span> <span class="n">read_lol_file</span><span class="p">(</span><span class="n">rada_lol_file</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">community_vect</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">community_vect</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;Computing node roles&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing node roles&quot;</span><span class="p">)</span>
         
         <span class="n">node_roles</span><span class="p">,</span><span class="n">all_Z_com_degree</span><span class="p">,</span><span class="n">all_participation_coeff</span> <span class="o">=</span> <span class="n">compute_roles</span><span class="p">(</span><span class="n">community_vect</span><span class="p">,</span><span class="n">sparse_mat</span><span class="p">,</span> <span class="n">role_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">role_type</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">node_roles</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node_roles</span><span class="p">)</span>
         
         
         <span class="n">node_roles_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;node_roles.txt&#39;</span><span class="p">)</span>

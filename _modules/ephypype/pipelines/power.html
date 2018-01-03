@@ -173,20 +173,24 @@
 
 <span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">IdentityInterface</span>
 <span class="kn">from</span> <span class="nn">ephypype.interfaces.mne.power</span> <span class="k">import</span> <span class="n">Power</span>
+<span class="kn">from</span> <span class="nn">ephypype.nodes.power_tools</span> <span class="k">import</span> <span class="n">PowerBand</span>
 
 
-<div class="viewcode-block" id="create_pipeline_power"><a class="viewcode-back" href="../../../ephypype/ephypype.pipelines.html#ephypype.pipelines.power.create_pipeline_power">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_power</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span><span class="o">=</span><span class="s1">&#39;power&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="create_pipeline_power"><a class="viewcode-back" href="../../../ephypype/ephypype.pipelines.html#ephypype.pipelines.power.create_pipeline_power">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_power</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">freq_bands</span><span class="p">,</span> <span class="n">pipeline_name</span><span class="o">=</span><span class="s1">&#39;power&#39;</span><span class="p">,</span>
                           <span class="n">fmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span>
                           <span class="n">is_epoched</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
 
-<span class="sd">        Power pipeline: wraps functions of MNE to compute PSD of epoch or raw data</span>
+<span class="sd">        Power pipeline: wraps functions of MNE to compute PSD of epoch or raw</span>
+<span class="sd">        data</span>
 
 <span class="sd">    Inputs:</span>
 
 <span class="sd">        main_path : str</span>
 <span class="sd">            the main path of the pipeline</span>
+<span class="sd">        freq_bands : list</span>
+<span class="sd">            frequency bands</span>
 <span class="sd">        pipeline_name : str (default &#39;power&#39;)</span>
 <span class="sd">            name of the pipeline</span>
 <span class="sd">        fmin : float (default 0)</span>
@@ -215,7 +219,7 @@
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;*** main_path -&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">main_path</span> <span class="o">+</span> <span class="s1">&#39; ***&#39;</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;*** main_path -&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">main_path</span> <span class="o">+</span> <span class="s1">&#39; ***&#39;</span><span class="p">))</span>
 
     <span class="c1"># define the inputs of the pipeline</span>
     <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;fif_file&#39;</span><span class="p">]),</span>
@@ -228,6 +232,80 @@
     <span class="n">power_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_epoched</span> <span class="o">=</span> <span class="n">is_epoched</span>
 
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;fif_file&#39;</span><span class="p">,</span> <span class="n">power_node</span><span class="p">,</span> <span class="s1">&#39;data_file&#39;</span><span class="p">)</span>
+
+    <span class="n">power_band_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">PowerBand</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;power_band&#39;</span><span class="p">)</span>
+    <span class="n">power_band_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">freq_bands</span> <span class="o">=</span> <span class="n">freq_bands</span>
+
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">power_node</span><span class="p">,</span> <span class="s1">&#39;psds_file&#39;</span><span class="p">,</span> <span class="n">power_band_node</span><span class="p">,</span> <span class="s1">&#39;psds_file&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pipeline</span></div>
+
+
+<div class="viewcode-block" id="create_pipeline_power_src_space"><a class="viewcode-back" href="../../../ephypype/ephypype.pipelines.html#ephypype.pipelines.power.create_pipeline_power_src_space">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_power_src_space</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">sfreq</span><span class="p">,</span> <span class="n">freq_bands</span><span class="p">,</span>
+                                    <span class="n">pipeline_name</span><span class="o">=</span><span class="s1">&#39;source_power&#39;</span><span class="p">,</span>
+                                    <span class="n">fmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">nfft</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                    <span class="n">is_epoched</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+
+<span class="sd">        Power pipeline: wraps functions of MNE to compute source PSD</span>
+
+<span class="sd">    Inputs:</span>
+
+<span class="sd">        main_path : str</span>
+<span class="sd">            the main path of the pipeline</span>
+<span class="sd">        sfreq : float</span>
+<span class="sd">            sampling frequency</span>
+<span class="sd">        freq_bands : list</span>
+<span class="sd">            frequency bands</span>
+<span class="sd">        pipeline_name : str (default &#39;source_power&#39;)</span>
+<span class="sd">            name of the pipeline</span>
+<span class="sd">        fmin : float (default 0)</span>
+<span class="sd">            min frequency of interest</span>
+<span class="sd">        fmax : float (default 300)</span>
+<span class="sd">            max frequency of interest</span>
+<span class="sd">        n_fft : int (default 256)</span>
+<span class="sd">            the length of FFT used</span>
+<span class="sd">        n_overlap : int</span>
+<span class="sd">            The number of points of overlap between segments</span>
+<span class="sd">        is_epoched : bool (default False)</span>
+<span class="sd">            True if the input data are in epoch format</span>
+
+<span class="sd">    Inputs (inputnode):</span>
+
+<span class="sd">        src_file : str</span>
+<span class="sd">            path to source reconstruction matrix (.npy format)</span>
+
+<span class="sd">    Outputs:</span>
+
+<span class="sd">        pipeline : instance of Workflow</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;*** main_path -&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">main_path</span> <span class="o">+</span> <span class="s1">&#39; ***&#39;</span><span class="p">)</span>
+
+    <span class="c1"># define the inputs of the pipeline</span>
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_file&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+
+    <span class="n">power_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">Power</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;power&#39;</span><span class="p">)</span>
+    <span class="n">power_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sfreq</span> <span class="o">=</span> <span class="n">sfreq</span>
+    <span class="n">power_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fmin</span> <span class="o">=</span> <span class="n">fmin</span>
+    <span class="n">power_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fmax</span> <span class="o">=</span> <span class="n">fmax</span>
+    <span class="n">power_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">nfft</span> <span class="o">=</span> <span class="n">nfft</span>
+    <span class="n">power_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">overlap</span> <span class="o">=</span> <span class="n">overlap</span>
+    <span class="n">power_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_epoched</span> <span class="o">=</span> <span class="n">is_epoched</span>
+    <span class="n">power_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_sensor_space</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s1">&#39;data_file&#39;</span><span class="p">,</span> <span class="n">power_node</span><span class="p">,</span> <span class="s1">&#39;data_file&#39;</span><span class="p">)</span>
+
+    <span class="n">power_band_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">PowerBand</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;power_band&#39;</span><span class="p">)</span>
+    <span class="n">power_band_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">freq_bands</span> <span class="o">=</span> <span class="n">freq_bands</span>
+
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">power_node</span><span class="p">,</span> <span class="s1">&#39;psds_file&#39;</span><span class="p">,</span> <span class="n">power_band_node</span><span class="p">,</span> <span class="s1">&#39;psds_file&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">pipeline</span></div>
 </pre></div>

@@ -250,7 +250,7 @@ Current implementations allow for</p>
 <p>Aux functions</p>
 <dl class="function">
 <dt id="ephypype.aux_tools.nostdout">
-<code class="descclassname">ephypype.aux_tools.</code><code class="descname">nostdout</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ephypype/aux_tools.html#nostdout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ephypype.aux_tools.nostdout" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ephypype.aux_tools.</code><code class="descname">nostdout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ephypype/aux_tools.html#nostdout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ephypype.aux_tools.nostdout" title="Permalink to this definition">¶</a></dt>
 <dd><p>Kill standart output
 Example:</p>
 <dl class="docutils">
@@ -285,7 +285,7 @@ exited (at least, I think that is why it lets exceptions through).</p>
 <span id="ephypype-compute-inv-problem"></span><h3>ephypype.compute_inv_problem<a class="headerlink" href="#module-ephypype.compute_inv_problem" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="ephypype.compute_inv_problem.compute_ROIs_inv_sol">
-<code class="descclassname">ephypype.compute_inv_problem.</code><code class="descname">compute_ROIs_inv_sol</code><span class="sig-paren">(</span><em>raw_filename</em>, <em>sbj_id</em>, <em>sbj_dir</em>, <em>fwd_filename</em>, <em>cov_fname</em>, <em>is_epoched=False</em>, <em>events_id=[]</em>, <em>t_min=None</em>, <em>t_max=None</em>, <em>is_evoked=False</em>, <em>snr=1.0</em>, <em>inv_method='MNE'</em>, <em>parc='aparc'</em>, <em>aseg=False</em>, <em>aseg_labels=[]</em>, <em>save_stc=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ephypype/compute_inv_problem.html#compute_ROIs_inv_sol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ephypype.compute_inv_problem.compute_ROIs_inv_sol" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ephypype.compute_inv_problem.</code><code class="descname">compute_ROIs_inv_sol</code><span class="sig-paren">(</span><em>raw_filename</em>, <em>sbj_id</em>, <em>sbj_dir</em>, <em>fwd_filename</em>, <em>cov_fname</em>, <em>is_epoched=False</em>, <em>events_id=[]</em>, <em>t_min=None</em>, <em>t_max=None</em>, <em>is_evoked=False</em>, <em>snr=1.0</em>, <em>inv_method='MNE'</em>, <em>parc='aparc'</em>, <em>aseg=False</em>, <em>aseg_labels=[]</em>, <em>save_stc=False</em>, <em>is_fixed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ephypype/compute_inv_problem.html#compute_ROIs_inv_sol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ephypype.compute_inv_problem.compute_ROIs_inv_sol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the inverse solution on raw/epoched data and return the average
 time series computed in the N_r regions of the source space defined by
 the specified cortical parcellation</p>
@@ -432,13 +432,20 @@ result in pipeline folder structure</p>
 compute psd and save the result in numpy arrays</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="ephypype.power.compute_and_save_src_psd">
+<code class="descclassname">ephypype.power.</code><code class="descname">compute_and_save_src_psd</code><span class="sig-paren">(</span><em>data_fname</em>, <em>sfreq</em>, <em>fmin=0</em>, <em>fmax=120</em>, <em>is_epoched=False</em>, <em>n_fft=256</em>, <em>n_overlap=0</em>, <em>n_jobs=1</em>, <em>verbose=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ephypype/power.html#compute_and_save_src_psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ephypype.power.compute_and_save_src_psd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load epochs/raw from file,
+compute psd and save the result in numpy arrays</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-ephypype.preproc">
 <span id="ephypype-preproc"></span><h3>ephypype.preproc<a class="headerlink" href="#module-ephypype.preproc" title="Permalink to this headline">¶</a></h3>
 <p>Preprocessing functions</p>
 <dl class="function">
 <dt id="ephypype.preproc.compute_ica">
-<code class="descclassname">ephypype.preproc.</code><code class="descname">compute_ica</code><span class="sig-paren">(</span><em>fif_file</em>, <em>ecg_ch_name</em>, <em>eog_ch_name</em>, <em>n_components</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ephypype/preproc.html#compute_ica"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ephypype.preproc.compute_ica" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ephypype.preproc.</code><code class="descname">compute_ica</code><span class="sig-paren">(</span><em>fif_file</em>, <em>ecg_ch_name</em>, <em>eog_ch_name</em>, <em>n_components</em>, <em>reject</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ephypype/preproc.html#compute_ica"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ephypype.preproc.compute_ica" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute ica solution</p>
 </dd></dl>
 

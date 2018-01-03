@@ -164,8 +164,12 @@
             
   <h1>Source code for neuropycon_cli.neuropycon</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Command line interface for ephypype package&quot;&quot;&quot;</span>
+<span class="c1"># TODO: autocompletion</span>
 <span class="kn">import</span> <span class="nn">click</span>
 <span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+
+<span class="kn">import</span> <span class="nn">click_completion</span>
+<span class="n">click_completion</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 
 
 <span class="nd">@click</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="n">chain</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -242,10 +246,10 @@
                 <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="s1">&#39;Linear&#39;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">plugin</span> <span class="o">==</span> <span class="s1">&#39;PBS&#39;</span><span class="p">:</span>
                 <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="s1">&#39;PBS&#39;</span><span class="p">)</span></div>
-<span class="c1">#  process_pipeline}}} # </span>
+<span class="c1">#  process_pipeline}}} #</span>
 
 
-<span class="c1">#  Input node {{{input # </span>
+<span class="c1">#  Input node {{{input #</span>
 <span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;fif_files&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">infosrc</span><span class="p">(</span><span class="n">fif_files</span><span class="p">):</span>
@@ -283,13 +287,13 @@
                                            <span class="n">function</span><span class="o">=</span><span class="n">map_path</span><span class="p">),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;path_node&#39;</span><span class="p">)</span>
 
-    <span class="n">infosource</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">iter_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+    <span class="n">infosource</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">iter_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">()))]</span>
     <span class="n">path_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">iter_mapping</span> <span class="o">=</span> <span class="n">iter_mapping</span>
     <span class="k">return</span> <span class="n">infosource</span><span class="p">,</span> <span class="n">path_node</span>
-<span class="c1">#  input}}} # </span>
+<span class="c1">#  input}}} #</span>
 
 
-<span class="c1">#  Power spectral density node  {{{psd # </span>
+<span class="c1">#  Power spectral density node  {{{psd #</span>
 <span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;psd&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--fmin&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
               <span class="n">help</span><span class="o">=</span><span class="s1">&#39;lower frequency bound; default=0&#39;</span><span class="p">)</span>
@@ -315,10 +319,10 @@
     <span class="n">power</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fmax</span> <span class="o">=</span> <span class="n">fmax</span>
     <span class="n">power</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;welch&#39;</span>
     <span class="k">return</span> <span class="n">power</span>
-<span class="c1">#  psd}}} # </span>
+<span class="c1">#  psd}}} #</span>
 
 
-<span class="c1">#  Connectivity {{{conn # </span>
+<span class="c1">#  Connectivity {{{conn #</span>
 <span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;conn&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--band&#39;</span><span class="p">,</span> <span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Tuple</span><span class="p">([</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]),</span>
               <span class="n">multiple</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;frequency band&#39;</span><span class="p">)</span>
@@ -328,6 +332,7 @@
                                  <span class="s2">&quot;ppc&quot;</span><span class="p">,</span> <span class="s2">&quot;cohy&quot;</span><span class="p">,</span> <span class="s2">&quot;wpli2_debiased&quot;</span><span class="p">]),</span>
               <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;imcoh&#39;</span><span class="p">,),</span> <span class="n">multiple</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;connectivity measure&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--sfreq&#39;</span><span class="p">,</span> <span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">INT</span><span class="p">,</span>
+              <span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;Input sampling frequency&#39;</span><span class="p">,</span>
               <span class="n">help</span><span class="o">=</span><span class="s1">&#39;data sampling frequency&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">connectivity</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">sfreq</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute spectral connectivity&quot;&quot;&quot;</span>
@@ -341,10 +346,10 @@
     <span class="n">sp_conn</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sfreq</span> <span class="o">=</span> <span class="n">sfreq</span>
     <span class="n">sp_conn</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;freq_band&#39;</span><span class="p">,</span> <span class="n">freq_bands</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;con_method&#39;</span><span class="p">,</span> <span class="n">method</span><span class="p">)]</span>
     <span class="k">return</span> <span class="n">sp_conn</span>
-<span class="c1">#  conn}}} # </span>
+<span class="c1">#  conn}}} #</span>
 
 
-<span class="c1">#  Epochs to numpy node {{{ep2npy # </span>
+<span class="c1">#  Epochs to numpy node {{{ep2npy #</span>
 <span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;ep2npy&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">fif_ep_2_ts</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Convert .fif epochs to npy timeseries&quot;&quot;&quot;</span>
@@ -352,10 +357,10 @@
     <span class="kn">from</span> <span class="nn">ephypype.nodes.import_data</span> <span class="k">import</span> <span class="n">Ep2ts</span>
     <span class="n">ep2ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">Ep2ts</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ep2ts&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ep2ts</span>
-<span class="c1">#  ep2npy}}} # </span>
+<span class="c1">#  ep2npy}}} #</span>
 
 
-<span class="c1">#  Multiscale entropy node {{{mse # </span>
+<span class="c1">#  Multiscale entropy node {{{mse #</span>
 <span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;mse&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
@@ -376,10 +381,10 @@
     <span class="n">mse</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
     <span class="n">mse</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">r</span>
     <span class="k">return</span> <span class="n">mse</span>
-<span class="c1">#  mse}}} # </span>
+<span class="c1">#  mse}}} #</span>
 
 
-<span class="c1">#  ica {{{ica # </span>
+<span class="c1">#  ica {{{ica #</span>
 <span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;ica&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--n-components&#39;</span><span class="p">,</span> <span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--ecg-ch-name&#39;</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
@@ -392,10 +397,10 @@
     <span class="n">ica_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ecg_ch_name</span> <span class="o">=</span> <span class="n">ecg_ch_name</span>
     <span class="n">ica_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">eog_ch_name</span> <span class="o">=</span> <span class="n">eog_ch_name</span>
     <span class="k">return</span> <span class="n">ica_node</span>
-<span class="c1">#  ica}}} # </span>
+<span class="c1">#  ica}}} #</span>
 
 
-<span class="c1">#  Preproc node {{{preproc # </span>
+<span class="c1">#  Preproc node {{{preproc #</span>
 <span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;preproc&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--l-freq&#39;</span><span class="p">,</span> <span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--h-freq&#39;</span><span class="p">,</span> <span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">)</span>
@@ -416,10 +421,10 @@
         <span class="n">preproc_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">down_sfreq</span> <span class="o">=</span> <span class="n">ds_freq</span>
 
     <span class="k">return</span> <span class="n">preproc_node</span>
-<span class="c1">#  preproc}}} # </span>
+<span class="c1">#  preproc}}} #</span>
 
 
-<span class="c1">#  DS2FIF node {{{ds2fif # </span>
+<span class="c1">#  DS2FIF node {{{ds2fif #</span>
 <span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;ds2fif&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">ds2fif</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Convert CTF .ds raw data to .fif format&quot;&quot;&quot;</span>
@@ -428,10 +433,10 @@
     <span class="n">ds2fif_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">ConvertDs2Fif</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ds2fif&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ds2fif_node</span>
-<span class="c1">#  ds2fif}}} # </span>
+<span class="c1">#  ds2fif}}} #</span>
 
 
-<span class="c1">#  Create_epochs node {{{epoch # </span>
+<span class="c1">#  Create_epochs node {{{epoch #</span>
 <span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;epoch&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--length&#39;</span><span class="p">,</span> <span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span>
               <span class="n">help</span><span class="o">=</span><span class="s1">&#39;epoch length&#39;</span><span class="p">)</span>
@@ -446,14 +451,15 @@
     <span class="n">epoch_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ep_length</span> <span class="o">=</span> <span class="n">length</span>
 
     <span class="k">return</span> <span class="n">epoch_node</span>
-<span class="c1">#  epoch}}} # </span>
+<span class="c1">#  epoch}}} #</span>
 
 
 <div class="viewcode-block" id="map_path"><a class="viewcode-back" href="../../neuropycon_cli/index.html#neuropycon_cli.neuropycon.map_path">[docs]</a><span class="k">def</span> <span class="nf">map_path</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iter_mapping</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Map paths&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">iter_mapping</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
 
-<span class="c1">#  Greeting {{{greeting # </span>
+
+<span class="c1">#  Greeting {{{greeting #</span>
 <div class="viewcode-block" id="output_greeting"><a class="viewcode-back" href="../../neuropycon_cli/index.html#neuropycon_cli.neuropycon.output_greeting">[docs]</a><span class="k">def</span> <span class="nf">output_greeting</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Output greeting&quot;&quot;&quot;</span>
 
@@ -466,8 +472,9 @@
 <span class="s1"> |_| \_|\___|\__,_|_|  \___/|_|    \__, |\_____\___/|_| |_|    `(_( (-&#39; `-&#39;.-)</span>
 <span class="s1">                                    __/ |                          `-.__.-&#39;=/</span>
 <span class="s1">                                   |___/                              `._`=&#39;</span>
-<span class="s1">                                                                        \\&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="s1">&#39;magenta&#39;</span><span class="p">))</span></div>
-<span class="c1">#  greeting}}} # </span>
+<span class="s1">                                                                        \\&#39;&#39;&#39;</span><span class="p">,</span>
+                           <span class="n">fg</span><span class="o">=</span><span class="s1">&#39;magenta&#39;</span><span class="p">))</span></div>
+<span class="c1">#  greeting}}} #</span>
 </pre></div>
 
            </div>

@@ -220,20 +220,20 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
                 
-        <span class="nb">print</span> <span class="s1">&#39;in SplitWindows&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;in SplitWindows&#39;</span><span class="p">)</span>
         
         <span class="n">np_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ts_file</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">np_ts</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">((</span><span class="n">np_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">win_ts_files</span> <span class="o">=</span> <span class="p">[]</span>
         
-        <span class="nb">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_windows</span>
+        <span class="nb">print</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_windows</span><span class="p">))</span>
         
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">n_win</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_windows</span><span class="p">):</span>
             
-            <span class="nb">print</span> <span class="n">i</span>
-            <span class="nb">print</span> <span class="n">n_win</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">n_win</span><span class="p">)</span>
             
             <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">n_win</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">n_win</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">np_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
                 
@@ -253,7 +253,7 @@
                 
                 <span class="c1">#win_ts = np.array([np_ts[trial_index,:,n_win[0]:n_win[1]]] for trial_index in range(np_ts.shape[0]))</span>
                 
-                <span class="nb">print</span> <span class="n">win_ts</span><span class="o">.</span><span class="n">shape</span>
+                <span class="nb">print</span><span class="p">((</span><span class="n">win_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
         
                 <span class="n">win_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;win_ts_</span><span class="si">{}</span><span class="s2">.npy&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
@@ -262,12 +262,12 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">win_ts_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">win_ts_file</span><span class="p">)</span>
                 
             <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span> <span class="s2">&quot;Warning, should be : 0 &lt;= </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> &lt;= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_win</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">n_win</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">np_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">((</span><span class="s2">&quot;Warning, should be : 0 &lt;= </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> &lt;= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_win</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">n_win</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">np_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
                 <span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
                 
             
                    
-        <span class="nb">print</span> <span class="s2">&quot;Generated </span><span class="si">{}</span><span class="s2"> win files&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">win_ts_files</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">((</span><span class="s2">&quot;Generated </span><span class="si">{}</span><span class="s2"> win files&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">win_ts_files</span><span class="p">))))</span>
         
         <span class="k">return</span> <span class="n">runtime</span>
         

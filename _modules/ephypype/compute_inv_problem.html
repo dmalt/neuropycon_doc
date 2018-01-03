@@ -192,7 +192,7 @@
     <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="k">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
     <span class="kn">from</span> <span class="nn">ephypype.preproc</span> <span class="k">import</span> <span class="n">create_reject_dict</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;***** COMPUTE RAW COV *****&#39;</span> <span class="o">+</span> <span class="n">cov_fname</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;***** COMPUTE RAW COV *****&#39;</span> <span class="o">+</span> <span class="n">cov_fname</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">cov_fname</span><span class="p">):</span>
 
@@ -208,7 +208,7 @@
         <span class="n">write_cov</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">noise_cov</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span> <span class="s1">&#39;*** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!!!&#39;</span> <span class="o">%</span> <span class="n">cov_fname</span>
+        <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;*** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!!!&#39;</span> <span class="o">%</span> <span class="n">cov_fname</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">cov_fname</span></div>
 
@@ -231,7 +231,7 @@
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
     <span class="kn">import</span> <span class="nn">mne</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;***** READ RAW COV *****&#39;</span> <span class="o">+</span> <span class="n">cov_fname</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;***** READ RAW COV *****&#39;</span> <span class="o">+</span> <span class="n">cov_fname</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">cov_fname</span><span class="p">):</span>
         <span class="c1"># create an Identity matrix</span>
@@ -243,7 +243,7 @@
                            <span class="n">bads</span><span class="o">=</span><span class="p">[],</span> <span class="n">projs</span><span class="o">=</span><span class="p">[],</span> <span class="n">nfree</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">mne</span><span class="o">.</span><span class="n">write_cov</span><span class="p">(</span><span class="n">cov_fname</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span> <span class="s1">&#39;*** noise covariance file </span><span class="si">%s</span><span class="s1"> exists!!!&#39;</span> <span class="o">%</span> <span class="n">cov_fname</span>
+        <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;*** noise covariance file </span><span class="si">%s</span><span class="s1"> exists!!!&#39;</span> <span class="o">%</span> <span class="n">cov_fname</span><span class="p">))</span>
         <span class="n">noise_cov</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_cov</span><span class="p">(</span><span class="n">cov_fname</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">noise_cov</span></div>
@@ -256,7 +256,7 @@
     <span class="kn">from</span> <span class="nn">mne.minimum_norm</span> <span class="k">import</span> <span class="n">make_inverse_operator</span><span class="p">,</span> <span class="n">apply_inverse_raw</span>
     <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="k">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;***** READ FWD SOL </span><span class="si">%s</span><span class="s1"> *****&#39;</span> <span class="o">%</span> <span class="n">fwd_filename</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;***** READ FWD SOL </span><span class="si">%s</span><span class="s1"> *****&#39;</span> <span class="o">%</span> <span class="n">fwd_filename</span><span class="p">))</span>
     <span class="n">forward</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_forward_solution</span><span class="p">(</span><span class="n">fwd_filename</span><span class="p">)</span>
 
     <span class="c1"># Convert to surface orientation for cortically constrained</span>
@@ -267,7 +267,7 @@
     <span class="n">lambda2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">snr</span> <span class="o">**</span> <span class="mi">2</span>
 
     <span class="c1"># compute inverse operator</span>
-    <span class="nb">print</span> <span class="s1">&#39;***** COMPUTE INV OP *****&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***** COMPUTE INV OP *****&#39;</span><span class="p">)</span>
     <span class="n">inverse_operator</span> <span class="o">=</span> <span class="n">make_inverse_operator</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="n">forward</span><span class="p">,</span> <span class="n">cov_fname</span><span class="p">,</span>
                                              <span class="n">loose</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 
@@ -276,22 +276,22 @@
     <span class="n">t_start</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># sec</span>
     <span class="n">t_stop</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># sec</span>
     <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">time_as_index</span><span class="p">([</span><span class="n">t_start</span><span class="p">,</span> <span class="n">t_stop</span><span class="p">])</span>
-    <span class="nb">print</span> <span class="s1">&#39;***** APPLY INV OP ***** [</span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="s1">]sec&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t_start</span><span class="p">,</span> <span class="n">t_stop</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;***** APPLY INV OP ***** [</span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="s1">]sec&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t_start</span><span class="p">,</span> <span class="n">t_stop</span><span class="p">)))</span>
     <span class="n">stc</span> <span class="o">=</span> <span class="n">apply_inverse_raw</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">inverse_operator</span><span class="p">,</span> <span class="n">lambda2</span><span class="p">,</span> <span class="n">inv_method</span><span class="p">,</span>
                             <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
-    <span class="nb">print</span> <span class="s1">&#39;stc dim &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;stc dim &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
 
     <span class="n">subj_path</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">stc</span><span class="o">.</span><span class="n">data</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;data dim &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;data dim &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
 
     <span class="c1"># save results in .npy file that will be the input for spectral node</span>
-    <span class="nb">print</span> <span class="s1">&#39;***** SAVE SOL *****&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***** SAVE SOL *****&#39;</span><span class="p">)</span>
     <span class="n">ts_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">basename</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span><span class="p">)</span>
     <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">ts_file</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
@@ -326,7 +326,7 @@
                          <span class="n">t_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_evoked</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                          <span class="n">snr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">inv_method</span><span class="o">=</span><span class="s1">&#39;MNE&#39;</span><span class="p">,</span>
                          <span class="n">parc</span><span class="o">=</span><span class="s1">&#39;aparc&#39;</span><span class="p">,</span> <span class="n">aseg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aseg_labels</span><span class="o">=</span><span class="p">[],</span>
-                         <span class="n">save_stc</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                         <span class="n">save_stc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the inverse solution on raw/epoched data and return the average</span>
 <span class="sd">    time series computed in the N_r regions of the source space defined by</span>
@@ -382,11 +382,9 @@
 <span class="sd">            centroid of the ROIs of the parcellation</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">os</span>
     <span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
     <span class="kn">import</span> <span class="nn">mne</span>
-    <span class="kn">import</span> <span class="nn">pickle</span>
 
     <span class="kn">from</span> <span class="nn">mne.io</span> <span class="k">import</span> <span class="n">read_raw_fif</span>
     <span class="kn">from</span> <span class="nn">mne</span> <span class="k">import</span> <span class="n">read_epochs</span>
@@ -397,50 +395,59 @@
     <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="k">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
 
     <span class="kn">from</span> <span class="nn">ephypype.preproc</span> <span class="k">import</span> <span class="n">create_reject_dict</span>
+    <span class="kn">from</span> <span class="nn">ephypype.source_space</span> <span class="k">import</span> <span class="n">create_MNI_label_files</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">traits</span><span class="o">.</span><span class="n">undefined</span><span class="p">(</span><span class="n">events_id</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="n">events_id</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** READ raw filename </span><span class="si">%s</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">raw_filename</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** READ raw filename </span><span class="si">%s</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">raw_filename</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">events_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">epochs</span> <span class="o">=</span> <span class="n">read_epochs</span><span class="p">(</span><span class="n">raw_filename</span><span class="p">)</span>
         <span class="n">info</span> <span class="o">=</span> <span class="n">epochs</span><span class="o">.</span><span class="n">info</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">raw</span> <span class="o">=</span> <span class="n">read_raw_fif</span><span class="p">(</span><span class="n">raw_filename</span><span class="p">)</span>
-        <span class="n">raw</span><span class="o">.</span><span class="n">set_eeg_reference</span><span class="p">()</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">read_raw_fif</span><span class="p">(</span><span class="n">raw_filename</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#        raw.set_eeg_reference()</span>
         <span class="n">info</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">info</span>
 
     <span class="n">subj_path</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">raw_filename</span><span class="p">)</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** READ noise covariance </span><span class="si">%s</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">cov_fname</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** READ noise covariance </span><span class="si">%s</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">cov_fname</span><span class="p">))</span>
     <span class="n">noise_cov</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_cov</span><span class="p">(</span><span class="n">cov_fname</span><span class="p">)</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** READ FWD SOL </span><span class="si">%s</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">fwd_filename</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** READ FWD SOL </span><span class="si">%s</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">fwd_filename</span><span class="p">))</span>
     <span class="n">forward</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_forward_solution</span><span class="p">(</span><span class="n">fwd_filename</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">aseg</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** fixed orientation </span><span class="si">{}</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">is_fixed</span><span class="p">)))</span>
         <span class="n">forward</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">convert_forward_solution</span><span class="p">(</span><span class="n">forward</span><span class="p">,</span> <span class="n">surf_ori</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                               <span class="n">force_fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                               <span class="n">force_fixed</span><span class="o">=</span><span class="n">is_fixed</span><span class="p">)</span>
 
     <span class="n">lambda2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">snr</span> <span class="o">**</span> <span class="mi">2</span>
 
     <span class="c1"># compute inverse operator</span>
-    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** COMPUTE INV OP ***</span><span class="se">\n</span><span class="s1">&#39;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">aseg</span><span class="p">:</span>
-        <span class="n">loose</span> <span class="o">=</span> <span class="mf">0.2</span>
-        <span class="n">depth</span> <span class="o">=</span> <span class="mf">0.8</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** COMPUTE INV OP ***</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_fixed</span><span class="p">:</span>
         <span class="n">loose</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">depth</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">pick_ori</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">elif</span> <span class="n">aseg</span><span class="p">:</span>
+        <span class="n">loose</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">pick_ori</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loose</span> <span class="o">=</span> <span class="mf">0.2</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="mf">0.8</span>
+        <span class="n">pick_ori</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span>
 
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** loose </span><span class="si">{}</span><span class="s1">  depth </span><span class="si">{}</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">loose</span><span class="p">,</span> <span class="n">depth</span><span class="p">)))</span>
     <span class="n">inverse_operator</span> <span class="o">=</span> <span class="n">make_inverse_operator</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">forward</span><span class="p">,</span> <span class="n">noise_cov</span><span class="p">,</span>
                                              <span class="n">loose</span><span class="o">=</span><span class="n">loose</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
-                                             <span class="n">fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                             <span class="n">fixed</span><span class="o">=</span><span class="n">is_fixed</span><span class="p">)</span>
 
     <span class="c1"># apply inverse operator to the time windows [t_start, t_stop]s</span>
-    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** APPLY INV OP ***</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** APPLY INV OP ***</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">events_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">events</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">find_events</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
         <span class="n">picks</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">meg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">eog</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="s1">&#39;bads&#39;</span><span class="p">)</span>
@@ -453,17 +460,17 @@
             <span class="n">snr</span> <span class="o">=</span> <span class="mf">3.0</span>
             <span class="n">lambda2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">snr</span> <span class="o">**</span> <span class="mi">2</span>
 
-            <span class="n">ev_list</span> <span class="o">=</span> <span class="n">events_id</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="n">ev_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">events_id</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">events_id</span><span class="p">)):</span>
                 <span class="n">stc</span> <span class="o">=</span> <span class="n">apply_inverse</span><span class="p">(</span><span class="n">evoked</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">inverse_operator</span><span class="p">,</span> <span class="n">lambda2</span><span class="p">,</span>
-                                    <span class="n">inv_method</span><span class="p">,</span> <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                                    <span class="n">inv_method</span><span class="p">,</span> <span class="n">pick_ori</span><span class="o">=</span><span class="n">pick_ori</span><span class="p">)</span>
 
-                <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** STC for event </span><span class="si">%s</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ev_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** STC for event </span><span class="si">%s</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ev_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
                 <span class="n">stc_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">basename</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">ev_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 
-                <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
-                <span class="nb">print</span> <span class="s1">&#39;stc dim &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-                <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;stc dim &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">aseg</span><span class="p">:</span>
                     <span class="n">stc</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">stc_file</span><span class="p">)</span>
@@ -472,128 +479,84 @@
             <span class="n">epochs</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">Epochs</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">events_id</span><span class="p">,</span> <span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span><span class="p">,</span>
                                 <span class="n">picks</span><span class="o">=</span><span class="n">picks</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">reject</span><span class="o">=</span><span class="n">reject</span><span class="p">)</span>
             <span class="n">stc</span> <span class="o">=</span> <span class="n">apply_inverse_epochs</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">inverse_operator</span><span class="p">,</span> <span class="n">lambda2</span><span class="p">,</span>
-                                       <span class="n">inv_method</span><span class="p">,</span> <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                                       <span class="n">inv_method</span><span class="p">,</span> <span class="n">pick_ori</span><span class="o">=</span><span class="n">pick_ori</span><span class="p">)</span>
 
-            <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
-            <span class="nb">print</span> <span class="s1">&#39;len stc </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">stc</span><span class="p">)</span>
-            <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;len stc </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">stc</span><span class="p">)))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">events_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">stc</span> <span class="o">=</span> <span class="n">apply_inverse_epochs</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">inverse_operator</span><span class="p">,</span> <span class="n">lambda2</span><span class="p">,</span>
-                                   <span class="n">inv_method</span><span class="p">,</span> <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-        <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
-        <span class="nb">print</span> <span class="s1">&#39;len stc </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">stc</span><span class="p">)</span>
-        <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
+                                   <span class="n">inv_method</span><span class="p">,</span> <span class="n">pick_ori</span><span class="o">=</span><span class="n">pick_ori</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;len stc </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">stc</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">stc</span> <span class="o">=</span> <span class="n">apply_inverse_raw</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">inverse_operator</span><span class="p">,</span> <span class="n">lambda2</span><span class="p">,</span> <span class="n">inv_method</span><span class="p">,</span>
                                 <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">buffer_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-                                <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># None &#39;normal&#39;</span>
+                                <span class="n">pick_ori</span><span class="o">=</span><span class="n">pick_ori</span><span class="p">)</span>  <span class="c1"># None &#39;normal&#39;</span>
 
-        <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
-        <span class="nb">print</span> <span class="s1">&#39;stc dim &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="nb">print</span> <span class="s1">&#39;***&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;stc dim &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stc</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">stc</span> <span class="o">=</span> <span class="p">[</span><span class="n">stc</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">save_stc</span><span class="p">:</span>
-	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">([</span><span class="n">stc</span><span class="p">])):</span>
-	    <span class="k">try</span><span class="p">:</span>
-		<span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_path</span><span class="p">,</span> <span class="s1">&#39;TS&#39;</span><span class="p">))</span>
-	    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-		<span class="k">pass</span>
-	    <span class="n">stc_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_path</span><span class="p">,</span> <span class="s1">&#39;TS&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span>
-				<span class="n">inv_method</span> <span class="o">+</span> <span class="s1">&#39;_stc_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stc</span><span class="p">)):</span>
+            <span class="n">stc_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">basename</span> <span class="o">+</span> <span class="s1">&#39;_stc_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">stc_file</span><span class="p">,</span> <span class="n">stc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
-	    <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">stc_file</span><span class="p">):</span>
-		<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">stc_file</span><span class="p">,</span> <span class="p">[</span><span class="n">stc</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>    
-
+    <span class="c1"># these coo are in MRI space and we have to convert to MNI space</span>
     <span class="n">labels_cortex</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_labels_from_annot</span><span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">parc</span><span class="o">=</span><span class="n">parc</span><span class="p">,</span>
                                                <span class="n">subjects_dir</span><span class="o">=</span><span class="n">sbj_dir</span><span class="p">)</span>
 
-    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** </span><span class="si">%d</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_cortex</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** </span><span class="si">%d</span><span class="s1"> ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_cortex</span><span class="p">)))</span>
 
     <span class="n">src</span> <span class="o">=</span> <span class="n">inverse_operator</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span>
 
     <span class="c1"># allow_empty : bool -&gt; Instead of emitting an error, return all-zero time</span>
     <span class="c1"># courses for labels that do not have any vertices in the source estimate</span>
-    <span class="n">label_ts</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">extract_label_time_course</span><span class="p">([</span><span class="n">stc</span><span class="p">],</span> <span class="n">labels_cortex</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span>
-                                             <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+
+    <span class="k">if</span> <span class="n">is_fixed</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;mean_flip&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span>
+
+    <span class="n">label_ts</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">extract_label_time_course</span><span class="p">(</span><span class="n">stc</span><span class="p">,</span> <span class="n">labels_cortex</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span>
+                                             <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
                                              <span class="n">allow_empty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                              <span class="n">return_generator</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># save results in .npy file that will be the input for spectral node</span>
-    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** SAVE ROI TS ***</span><span class="se">\n</span><span class="s1">&#39;</span>
-    <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_ts</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** SAVE ROI TS ***</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">label_ts</span><span class="p">)))</span>
 
     <span class="n">ts_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">basename</span> <span class="o">+</span> <span class="s1">&#39;_ROI_ts.npy&#39;</span><span class="p">)</span>
     <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">ts_file</span><span class="p">,</span> <span class="n">label_ts</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">aseg</span><span class="p">:</span>
-        <span class="nb">print</span> <span class="n">sbj_id</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sbj_id</span><span class="p">)</span>
         <span class="n">labels_aseg</span> <span class="o">=</span> <span class="n">get_volume_labels_from_src</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">sbj_id</span><span class="p">,</span> <span class="n">sbj_dir</span><span class="p">)</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_cortex</span> <span class="o">+</span> <span class="n">labels_aseg</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_cortex</span>
+        <span class="n">labels_aseg</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="nb">print</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pos</span>
-    <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">((</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pos</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)))</span>
 
-<span class="c1">#    labels_file = op.abspath(&#39;labels.dat&#39;)</span>
-<span class="c1">#    with open(labels_file, &quot;wb&quot;) as f:</span>
-<span class="c1">#        pickle.dump(len(labels), f)</span>
-<span class="c1">#        for value in labels:</span>
-<span class="c1">#            pickle.dump(value, f)</span>
-<span class="c1">#</span>
-<span class="c1">#    label_names_file = op.abspath(&#39;label_names.txt&#39;)</span>
-<span class="c1">#    label_coords_file = op.abspath(&#39;label_coords.txt&#39;)</span>
-<span class="c1">#</span>
-<span class="c1">#    label_names = []</span>
-<span class="c1">#    label_coords = []</span>
-<span class="c1">#</span>
-<span class="c1">#    for value in labels:</span>
-<span class="c1">#        label_names.append(value.name)</span>
-<span class="c1">##        label_coords.append(value.pos[0])</span>
-<span class="c1">#        label_coords.append(np.mean(value.pos, axis=0))</span>
-<span class="c1">#</span>
-<span class="c1">#    np.savetxt(label_names_file, np.array(label_names, dtype=str),</span>
-<span class="c1">#               fmt=&quot;%s&quot;)</span>
-<span class="c1">#    np.savetxt(label_coords_file, np.array(label_coords, dtype=float),</span>
-<span class="c1">#               fmt=&quot;%f %f %f&quot;)</span>
 
-    <span class="n">labels_file</span><span class="p">,</span> <span class="n">label_names_file</span><span class="p">,</span> <span class="n">label_coords_file</span> <span class="o">=</span> <span class="n">create_label_files</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-    
+<span class="c1">#    labels_file, label_names_file, label_coords_file = create_label_files(labels)</span>
+    <span class="n">labels_file</span><span class="p">,</span> <span class="n">label_names_file</span><span class="p">,</span> <span class="n">label_coords_file</span> <span class="o">=</span> \
+        <span class="n">create_MNI_label_files</span><span class="p">(</span><span class="n">forward</span><span class="p">,</span> <span class="n">labels_cortex</span><span class="p">,</span> <span class="n">labels_aseg</span><span class="p">,</span>
+                               <span class="n">sbj_id</span><span class="p">,</span> <span class="n">sbj_dir</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">ts_file</span><span class="p">,</span> <span class="n">labels_file</span><span class="p">,</span> <span class="n">label_names_file</span><span class="p">,</span> <span class="n">label_coords_file</span></div>
-    
 
-<span class="k">def</span> <span class="nf">create_label_files</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">pickle</span>
-    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-    <span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
-    
-    <span class="n">labels_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;labels.dat&#39;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_file</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-
-    <span class="n">label_names_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;label_names.txt&#39;</span><span class="p">)</span>
-    <span class="n">label_coords_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;label_coords.txt&#39;</span><span class="p">)</span>
-
-    <span class="n">label_names</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">label_coords</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
-        <span class="n">label_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-<span class="c1">#        label_coords.append(value.pos[0])</span>
-        <span class="n">label_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-
-    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">label_names_file</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">label_names</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">),</span>
-               <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">label_coords_file</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">label_coords</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
-               <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2"> </span><span class="si">%f</span><span class="s2"> </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">labels_file</span><span class="p">,</span> <span class="n">label_names_file</span><span class="p">,</span> <span class="n">label_coords_file</span>
 </pre></div>
 
            </div>

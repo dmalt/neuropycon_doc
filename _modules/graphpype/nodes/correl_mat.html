@@ -279,6 +279,8 @@
         
         <span class="n">plot_fig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">plot_fig</span>
         
+        <span class="nb">print</span><span class="p">(</span><span class="n">indexed_rois_file</span><span class="p">)</span>
+        
         <span class="c1">## loading ROI indexed mask</span>
         <span class="n">indexed_rois_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">indexed_rois_file</span><span class="p">)</span>
         <span class="n">indexed_mask_rois_data</span> <span class="o">=</span> <span class="n">indexed_rois_img</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
@@ -286,12 +288,12 @@
         <span class="c1">### loading time series</span>
         <span class="n">orig_ts</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_4D</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;orig_ts shape:&quot;</span>
-        <span class="nb">print</span> <span class="n">orig_ts</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;orig_ts shape:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">orig_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="n">mean_masked_ts</span><span class="p">,</span><span class="n">keep_rois</span> <span class="o">=</span> <span class="n">mean_select_indexed_mask_data</span><span class="p">(</span><span class="n">orig_ts</span><span class="p">,</span><span class="n">indexed_mask_rois_data</span><span class="p">,</span><span class="n">min_BOLD_intensity</span><span class="p">,</span> <span class="n">percent_signal</span> <span class="o">=</span> <span class="n">percent_signal</span><span class="p">,</span> <span class="n">background_val</span> <span class="o">=</span> <span class="n">background_val</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">keep_rois</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">keep_rois</span><span class="p">)</span>
         
         <span class="c1">## loading ROI coordinates</span>
         
@@ -301,13 +303,13 @@
         
             <span class="n">coord_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coord_rois_file</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;coord_rois: &quot;</span> 
-            <span class="nb">print</span> <span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coord_rois: &quot;</span><span class="p">)</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="n">subj_coord_rois</span> <span class="o">=</span> <span class="n">coord_rois</span><span class="p">[</span><span class="n">keep_rois</span><span class="p">,:]</span>
             
-            <span class="nb">print</span> <span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span>
-            <span class="nb">print</span> <span class="n">subj_coord_rois</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">subj_coord_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="c1">### saving subject ROIs</span>
             <span class="n">subj_coord_rois_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;subj_coord_rois.txt&quot;</span><span class="p">)</span>
@@ -319,12 +321,12 @@
         
             <span class="n">labels_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">label_rois_file</span><span class="p">)],</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;str&#39;</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">labels_rois</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">labels_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="n">subj_label_rois</span> <span class="o">=</span> <span class="n">labels_rois</span><span class="p">[</span><span class="n">keep_rois</span><span class="p">]</span>
             
-            <span class="nb">print</span> <span class="n">labels_rois</span><span class="o">.</span><span class="n">shape</span>
-            <span class="nb">print</span> <span class="n">subj_label_rois</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">labels_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">subj_label_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="c1">### saving subject ROIs</span>
             <span class="n">subj_label_rois_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;subj_label_rois.txt&quot;</span><span class="p">)</span>
@@ -332,7 +334,7 @@
             
         <span class="n">mean_masked_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mean_masked_ts</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">mean_masked_ts</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mean_masked_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
         <span class="c1">### saving time series</span>
         <span class="n">mean_masked_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;mean_masked_ts.txt&quot;</span><span class="p">)</span>
@@ -340,7 +342,7 @@
         
         <span class="k">if</span> <span class="n">plot_fig</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
                 
-            <span class="nb">print</span> <span class="s2">&quot;plotting mean_masked_ts&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;plotting mean_masked_ts&quot;</span><span class="p">)</span>
             
             <span class="n">plot_mean_masked_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;mean_masked_ts.eps&#39;</span><span class="p">)</span>    
             
@@ -386,6 +388,8 @@
     
     <span class="n">filter_thr</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Value to threshold filter_mask&#39;</span><span class="p">)</span>
                           
+    <span class="n">background_val</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;value for background (i.e. outside brain)&#39;</span><span class="p">,</span><span class="n">usedefault</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    
 <span class="k">class</span> <span class="nc">IntersectMaskOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     
     <span class="n">filtered_indexed_rois_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;nii file with indexed mask where all voxels belonging to the same ROI have the same value (! starting from 0)&#39;</span><span class="p">)</span>
@@ -426,7 +430,10 @@
 <span class="sd">        </span>
 <span class="sd">        filter_thr:</span>
 <span class="sd">            type = Float, default = 0.99, usedefault = True, desc=&#39;Value to threshold filter_mask&#39;</span>
-<span class="sd">                        </span>
+<span class="sd">        </span>
+<span class="sd">        background_val:</span>
+<span class="sd">            type = Float, -1.0, desc=&#39;value for background (i.e. outside brain)&#39;,usedefault = True</span>
+<span class="sd">    </span>
 <span class="sd">    Outputs:</span>
 <span class="sd">    </span>
 <span class="sd">        filtered_indexed_rois_file:</span>
@@ -452,7 +459,7 @@
         <span class="c1">#import numpy as np</span>
         <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
         
-        <span class="kn">import</span> <span class="nn">nipype.interfaces.spm</span> <span class="k">as</span> <span class="nn">spm</span>
+        <span class="c1">#import nipype.interfaces.spm as spm</span>
 
         <span class="c1">#from graphpype.utils_plot import plot_signals</span>
         
@@ -461,103 +468,124 @@
         <span class="n">coords_rois_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coords_rois_file</span>
         <span class="n">labels_rois_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_rois_file</span>
         <span class="n">MNI_coords_rois_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">MNI_coords_rois_file</span>
+        <span class="n">background_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">background_val</span>
+        
         <span class="n">filter_thr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_thr</span> 
         
-        <span class="nb">print</span> <span class="n">filter_thr</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">filter_thr</span><span class="p">)</span>
         
         <span class="c1">## loading ROI indexed mask</span>
         <span class="n">indexed_rois_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">indexed_rois_file</span><span class="p">)</span>
         
         <span class="n">indexed_rois_data</span> <span class="o">=</span> <span class="n">indexed_rois_img</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;indexed_rois_data: &quot;</span>
-        <span class="nb">print</span> <span class="n">indexed_rois_data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;indexed_rois_data: &quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">indexed_rois_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="c1">### loading time series</span>
         <span class="n">filter_mask_data</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filter_mask_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;filter_mask_data shape:&quot;</span>
-        <span class="nb">print</span> <span class="n">filter_mask_data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;filter_mask_data shape:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">filter_mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+          
+        
+        <span class="k">assert</span> <span class="n">filter_mask_data</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">indexed_rois_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">&quot;error, filter_mask </span><span class="si">{}</span><span class="s2"> and indexed_rois </span><span class="si">{}</span><span class="s2"> should have the same shape&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filter_mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">indexed_rois_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        
+        <span class="c1">#if filter_mask_data.shape != indexed_rois_data.shape:</span>
             
-        <span class="k">if</span> <span class="n">filter_mask_data</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">indexed_rois_data</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
-            
-            <span class="nb">print</span> <span class="s2">&quot;reslicing filtered_mask&quot;</span>
+            <span class="c1">#print(&quot;reslicing filtered_mask&quot;)</span>
             
             
-            <span class="n">reslice_filter_mask</span> <span class="o">=</span> <span class="n">spm</span><span class="o">.</span><span class="n">Reslice</span><span class="p">()</span>
-            <span class="n">reslice_filter_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span> <span class="o">=</span> <span class="n">filter_mask_file</span>
-            <span class="n">reslice_filter_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">space_defining</span> <span class="o">=</span> <span class="n">indexed_rois_file</span>
-            <span class="c1">#reslice_filter_mask.inputs.out_file = os.path.abspath(&quot;resliced_filter_mask.nii&quot;)</span>
+            <span class="c1">#reslice_filter_mask = spm.Reslice()</span>
+            <span class="c1">#reslice_filter_mask.inputs.in_file = filter_mask_file</span>
+            <span class="c1">#reslice_filter_mask.inputs.space_defining = indexed_rois_file</span>
+            <span class="c1">##reslice_filter_mask.inputs.out_file = os.path.abspath(&quot;resliced_filter_mask.nii&quot;)</span>
             
-            <span class="n">resliced_filter_mask_file</span> <span class="o">=</span>  <span class="n">reslice_filter_mask</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">out_file</span>
+            <span class="c1">#resliced_filter_mask_file =  reslice_filter_mask.run().outputs.out_file</span>
 
-            <span class="n">filter_mask_data</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">resliced_filter_mask_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+            <span class="c1">#filter_mask_data = nib.load(resliced_filter_mask_file).get_data()</span>
         
-        <span class="nb">print</span> <span class="n">filter_mask_data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="c1">#print(filter_mask_data.shape)</span>
         
-        <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filter_mask_data</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filter_mask_data</span><span class="p">))</span>
         
-        <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">filter_mask_data</span> <span class="o">&gt;</span> <span class="n">filter_thr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">filter_mask_data</span> <span class="o">&gt;</span> <span class="n">filter_thr</span><span class="p">))</span>
         
         <span class="n">filter_mask_data</span><span class="p">[</span><span class="n">filter_mask_data</span> <span class="o">&gt;</span> <span class="n">filter_thr</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="n">filter_mask_data</span><span class="p">[</span><span class="n">filter_mask_data</span> <span class="o">&lt;=</span> <span class="n">filter_thr</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
         
         <span class="c1">#print np.unique(filter_mask_data)</span>
-        <span class="nb">print</span> <span class="s2">&quot;indexed_rois_data:&quot;</span>
-        <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">indexed_rois_data</span><span class="p">)</span>        
-        <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">indexed_rois_data</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;indexed_rois_data:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">indexed_rois_data</span><span class="p">))</span>        
+        <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">indexed_rois_data</span><span class="p">)))</span>
         
-        <span class="n">filtered_indexed_rois_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filter_mask_data</span> <span class="o">*</span> <span class="p">(</span><span class="n">indexed_rois_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">background_val</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">:</span>
+                
+            <span class="n">filtered_indexed_rois_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filter_mask_data</span> <span class="o">*</span> <span class="p">(</span><span class="n">indexed_rois_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;int64&#39;</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;filtered_indexed_rois_data:&quot;</span>
-        <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">)</span>
-        <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">background_val</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
             
-        <span class="n">filtered_indexed_rois_img_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;filtered_indexed_rois.nii&quot;</span><span class="p">)</span>
-        <span class="n">nib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">,</span><span class="n">indexed_rois_img</span><span class="o">.</span><span class="n">get_affine</span><span class="p">(),</span><span class="n">indexed_rois_img</span><span class="o">.</span><span class="n">get_header</span><span class="p">()),</span><span class="n">filtered_indexed_rois_img_file</span><span class="p">)</span>
+            <span class="n">filtered_indexed_rois_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filter_mask_data</span> <span class="o">*</span> <span class="n">indexed_rois_data</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;filtered_indexed_rois_data:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">)))</span>
+            
+        <span class="c1">#filtered_indexed_rois_img_file = os.path.abspath(&quot;filtered_indexed_rois.nii&quot;)</span>
+        <span class="c1">#nib.save(nib.Nifti1Image(filtered_indexed_rois_data,indexed_rois_img.get_affine(),indexed_rois_img.get_header()),filtered_indexed_rois_img_file)</span>
     
-        <span class="nb">print</span> <span class="s2">&quot;index_corres:&quot;</span>
-        <span class="c1">#index_corres = np.unique(filtered_indexed_rois_data)[:-1]</span>
-        <span class="n">index_corres</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
-        
-        <span class="nb">print</span> <span class="n">index_corres</span>
-        <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">index_corres</span><span class="p">)</span>
-        
-        <span class="nb">print</span> <span class="s2">&quot;reorder_indexed_rois:&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;reorder_indexed_rois:&quot;</span><span class="p">)</span>
         <span class="n">reorder_indexed_rois_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="n">filtered_indexed_rois_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;int64&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
         
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">index_corres</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]:</span>
             
-            <span class="nb">print</span> <span class="n">i</span><span class="p">,</span><span class="n">index</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">index</span><span class="p">)</span>
             
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span> <span class="o">==</span> <span class="n">index</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 
-                <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span> <span class="o">==</span> <span class="n">index</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span> <span class="o">==</span> <span class="n">index</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)))</span>
                 <span class="n">reorder_indexed_rois_data</span><span class="p">[</span><span class="n">filtered_indexed_rois_data</span> <span class="o">==</span> <span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span> <span class="s2">&quot;Warning could not find value </span><span class="si">%d</span><span class="s2"> in filtered_indexed_rois_data&quot;</span><span class="o">%</span><span class="n">index</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning could not find value </span><span class="si">%d</span><span class="s2"> in filtered_indexed_rois_data&quot;</span><span class="o">%</span><span class="n">index</span><span class="p">)</span>
             
                                        
-        <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">reorder_indexed_rois_data</span><span class="p">)</span>  
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">reorder_indexed_rois_data</span><span class="p">))</span>  
         
         <span class="n">reorder_indexed_rois_img_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;reorder_filtered_indexed_rois.nii&quot;</span><span class="p">)</span>
         <span class="n">nib</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">nib</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">reorder_indexed_rois_data</span><span class="p">,</span><span class="n">indexed_rois_img</span><span class="o">.</span><span class="n">get_affine</span><span class="p">(),</span><span class="n">indexed_rois_img</span><span class="o">.</span><span class="n">get_header</span><span class="p">()),</span><span class="n">reorder_indexed_rois_img_file</span><span class="p">)</span>
-    
-    
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;unique np.unique(filtered_indexed_rois_data)&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">))</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;index_corres:&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">background_val</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">index_corres</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+           
+        <span class="k">elif</span> <span class="n">background_val</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">index_corres</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">filtered_indexed_rois_data</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="mi">1</span>
+            
+            
+        <span class="nb">print</span><span class="p">(</span><span class="n">index_corres</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">index_corres</span><span class="p">))</span>
+        
         <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">coords_rois_file</span><span class="p">):</span>
             
             <span class="c1">## loading ROI coordinates</span>
-            <span class="nb">print</span> <span class="s2">&quot;coords_rois_file: &quot;</span>
-            <span class="nb">print</span> <span class="n">coords_rois_file</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coords_rois_file: &quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">coords_rois_file</span><span class="p">)</span>
             <span class="n">coords_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coords_rois_file</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;coords_rois: &quot;</span> 
-            <span class="nb">print</span> <span class="n">coords_rois</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coords_rois: &quot;</span><span class="p">)</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="n">coords_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="n">filtered_coords_rois</span> <span class="o">=</span> <span class="n">coords_rois</span><span class="p">[</span><span class="n">index_corres</span><span class="p">,:]</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;filtered_coords_rois: &quot;</span> 
-            <span class="nb">print</span> <span class="n">filtered_coords_rois</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;filtered_coords_rois: &quot;</span><span class="p">)</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="n">filtered_coords_rois</span><span class="p">)</span>
             
             <span class="n">filtered_coords_rois_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;filtered_coords_rois.txt&quot;</span><span class="p">)</span>
             <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">filtered_coords_rois_file</span><span class="p">,</span><span class="n">filtered_coords_rois</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -567,13 +595,13 @@
             <span class="c1">## loading ROI coordinates</span>
             <span class="n">MNI_coords_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">MNI_coords_rois_file</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;MNI_coords_rois: &quot;</span> 
-            <span class="nb">print</span> <span class="n">MNI_coords_rois</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MNI_coords_rois: &quot;</span><span class="p">)</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="n">MNI_coords_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="n">filtered_MNI_coords_rois</span> <span class="o">=</span> <span class="n">MNI_coords_rois</span><span class="p">[</span><span class="n">index_corres</span><span class="p">,:]</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;filtered_MNI_coords_rois: &quot;</span> 
-            <span class="nb">print</span> <span class="n">filtered_MNI_coords_rois</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;filtered_MNI_coords_rois: &quot;</span><span class="p">)</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="n">filtered_MNI_coords_rois</span><span class="p">)</span>
             
             <span class="n">filtered_MNI_coords_rois_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;filtered_MNI_coords_rois.txt&quot;</span><span class="p">)</span>
             <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">filtered_MNI_coords_rois_file</span><span class="p">,</span><span class="n">filtered_MNI_coords_rois</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -581,19 +609,19 @@
         <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">labels_rois_file</span><span class="p">):</span>
     
     
-            <span class="nb">print</span> <span class="s1">&#39;extracting node labels&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;extracting node labels&#39;</span><span class="p">)</span>
                 
             <span class="n">labels_rois</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_rois_file</span><span class="p">)]</span>
-            <span class="nb">print</span> <span class="n">labels_rois</span>
-            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_rois</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">labels_rois</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_rois</span><span class="p">))</span>
             
             <span class="n">np_labels_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels_rois</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;str&#39;</span><span class="p">)</span>
             
                 
             <span class="n">filtered_labels_rois</span> <span class="o">=</span> <span class="n">np_labels_rois</span><span class="p">[</span><span class="n">index_corres</span><span class="p">]</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;filtered_coords_rois: &quot;</span> 
-            <span class="nb">print</span> <span class="n">filtered_coords_rois</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;filtered_coords_rois: &quot;</span><span class="p">)</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="n">filtered_coords_rois</span><span class="p">)</span>
             
             <span class="n">filtered_labels_rois_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;filtered_labels_rois.txt&quot;</span><span class="p">)</span>
             <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">filtered_labels_rois_file</span><span class="p">,</span><span class="n">filtered_labels_rois</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -683,7 +711,7 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
                 
-        <span class="nb">print</span> <span class="s1">&#39;in select_ts_with_mask&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;in select_ts_with_mask&#39;</span><span class="p">)</span>
         
         <span class="n">file_4D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">file_4D</span>
         <span class="n">ROI_coord</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ROI_coord</span>
@@ -695,24 +723,24 @@
         
         <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span>            
             
-        <span class="nb">print</span> <span class="s2">&quot;loading img data &quot;</span> <span class="o">+</span> <span class="n">file_4D</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loading img data &quot;</span> <span class="o">+</span> <span class="n">file_4D</span><span class="p">)</span>
 
         <span class="c1">### Reading 4D volume file to extract time series</span>
         <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_4D</span><span class="p">)</span>
         <span class="n">img_data</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
         
-        <span class="nb">print</span> <span class="n">img_data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">img_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
         
         <span class="c1">### Reading 3D mask file</span>
         <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">mask_file</span><span class="p">):</span>
         
-            <span class="nb">print</span> <span class="s2">&quot;loading mask data &quot;</span> <span class="o">+</span> <span class="n">mask_file</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loading mask data &quot;</span> <span class="o">+</span> <span class="n">mask_file</span><span class="p">)</span>
 
             <span class="n">mask_data</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mask_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
             
         <span class="k">elif</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">filter_mask_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">filter_thr</span><span class="p">):</span>
-            <span class="nb">print</span> <span class="s2">&quot;loading filter mask data &quot;</span> <span class="o">+</span> <span class="n">filter_mask_file</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loading filter mask data &quot;</span> <span class="o">+</span> <span class="n">filter_mask_file</span><span class="p">)</span>
             
             <span class="n">filter_mask_data</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filter_mask_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
             
@@ -725,7 +753,7 @@
             <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;In ROI coords&quot;</span><span class="p">)</span>
             
             <span class="n">mask_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="n">img_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
-            <span class="nb">print</span> <span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                   
             <span class="n">ROI_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ROI_coord</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
             
@@ -741,24 +769,24 @@
             
             <span class="k">return</span>
         
-        <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask_data</span><span class="p">)</span>
-        <span class="nb">print</span> <span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask_data</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;mean_select_mask_data&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mean_select_mask_data&quot;</span><span class="p">)</span>
         
         <span class="c1">### Retaining only time series who are within the mask + non_zero</span>
         <span class="n">mean_masked_ts</span> <span class="o">=</span> <span class="n">mean_select_mask_data</span><span class="p">(</span><span class="n">img_data</span><span class="p">,</span><span class="n">mask_data</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">mean_masked_ts</span>
-        <span class="nb">print</span> <span class="n">mean_masked_ts</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mean_masked_ts</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mean_masked_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;saving mean_masked_ts&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saving mean_masked_ts&quot;</span><span class="p">)</span>
         <span class="n">mean_masked_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;mean_&#39;</span> <span class="o">+</span> <span class="n">suffix</span> <span class="o">+</span> <span class="s1">&#39;_ts.txt&#39;</span><span class="p">)</span>    
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">mean_masked_ts_file</span><span class="p">,</span><span class="n">mean_masked_ts</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1">&#39;</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="n">plot_fig</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
                 
-            <span class="nb">print</span> <span class="s2">&quot;plotting mean_masked_ts&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;plotting mean_masked_ts&quot;</span><span class="p">)</span>
             
             <span class="n">plot_mean_masked_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;mean_&#39;</span> <span class="o">+</span> <span class="n">suffix</span> <span class="o">+</span> <span class="s1">&#39;_ts.eps&#39;</span><span class="p">)</span>    
             
@@ -830,12 +858,12 @@
         <span class="c1">## loading time series</span>
         <span class="n">all_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">all_ts_file</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;all_ts: &quot;</span> 
-        <span class="nb">print</span> <span class="n">all_ts</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;all_ts: &quot;</span><span class="p">)</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="n">all_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="n">concatenated_ts</span> <span class="o">=</span> <span class="n">all_ts</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">all_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">concatenated_ts</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">concatenated_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="c1">### saving time series</span>
         <span class="n">concatenated_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;concatenated_ts.npy&quot;</span><span class="p">)</span>
@@ -892,7 +920,7 @@
             
         <span class="n">all_ts_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">all_ts_files</span>
         
-        <span class="nb">print</span> <span class="n">all_ts_files</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">all_ts_files</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">all_ts_file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_ts_files</span><span class="p">):</span>
         
@@ -900,16 +928,16 @@
         
             <span class="n">concatenated_ts</span> <span class="o">=</span> <span class="n">all_ts</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">all_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         
-            <span class="nb">print</span> <span class="n">concatenated_ts</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">concatenated_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">concatenated_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
 
                 <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">merged_ts</span> <span class="o">=</span> <span class="n">concatenated_ts</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                    <span class="nb">print</span> <span class="n">merged_ts</span><span class="o">.</span><span class="n">shape</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">merged_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">merged_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">merged_ts</span><span class="p">,</span><span class="n">concatenated_ts</span><span class="p">),</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-                    <span class="nb">print</span> <span class="n">merged_ts</span><span class="o">.</span><span class="n">shape</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">merged_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
         <span class="n">merged_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;merged_ts.npy&quot;</span><span class="p">)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">merged_ts_file</span><span class="p">,</span><span class="n">merged_ts</span><span class="p">)</span>
@@ -977,8 +1005,8 @@
         
         <span class="n">all_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">all_ts_file</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;all_ts: &quot;</span> 
-        <span class="nb">print</span> <span class="n">all_ts</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;all_ts: &quot;</span><span class="p">)</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="n">all_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="n">separated_ts_files</span> <span class="o">=</span> <span class="p">[]</span>
         
@@ -1023,6 +1051,8 @@
     <span class="n">filtered</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;Is the signal filtered after regression?&quot;</span><span class="p">)</span>
     
     <span class="n">normalized</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;Is the signal normalized after regression?&quot;</span><span class="p">)</span>
+    
+    <span class="n">plot_fig</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;Plotting signals?&quot;</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">RegressCovarOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     
@@ -1069,53 +1099,54 @@
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
                     
                     
-        <span class="nb">print</span> <span class="s2">&quot;in regress_covariates&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in regress_covariates&quot;</span><span class="p">)</span>
         
         <span class="n">masked_ts_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">masked_ts_file</span>
         <span class="n">rp_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">rp_file</span>
         <span class="n">filtered</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filtered</span>
         <span class="n">normalized</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">normalized</span>
+        <span class="n">plot_fig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">plot_fig</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;load masked_ts_file&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;load masked_ts_file&quot;</span><span class="p">)</span>
         
         <span class="n">data_mask_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">masked_ts_file</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">data_mask_matrix</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">data_mask_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-        <span class="nb">print</span> <span class="s2">&quot;load rp parameters&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;load rp parameters&quot;</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">rp_file</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">rp_file</span><span class="p">)</span>
         
         <span class="n">rp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">rp_file</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">rp</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">rp</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mean_csf_ts_file</span><span class="p">):</span>
             
             <span class="n">mean_csf_ts_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mean_csf_ts_file</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;load mean_csf_ts_file&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mean_csf_ts_file</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;load mean_csf_ts_file&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mean_csf_ts_file</span><span class="p">))</span>
             
             <span class="n">mean_csf_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">mean_csf_ts_file</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="n">rp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">rp</span><span class="p">,</span><span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)),</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">rp</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">rp</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             
         <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mean_wm_ts_file</span><span class="p">):</span>
             
             <span class="n">mean_wm_ts_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mean_wm_ts_file</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;load mean_wm_ts_file&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;load mean_wm_ts_file&quot;</span><span class="p">)</span>
             
             <span class="n">mean_wm_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">mean_wm_ts_file</span><span class="p">)</span>
             
             <span class="n">rp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">rp</span><span class="p">,</span><span class="n">mean_wm_ts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mean_wm_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)),</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">rp</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">rp</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
         
         <span class="k">if</span> <span class="n">filtered</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">normalized</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
@@ -1124,37 +1155,39 @@
             <span class="c1">#resid_data_matrix = regress_movement_wm_csf_parameters(data_mask_matrix,rp,mean_wm_ts,mean_csf_ts)</span>
             <span class="n">resid_data_matrix</span><span class="p">,</span><span class="n">resid_filt_data_matrix</span><span class="p">,</span><span class="n">z_score_data_matrix</span> <span class="o">=</span> <span class="n">regress_filter_normalize_parameters</span><span class="p">(</span><span class="n">data_mask_matrix</span><span class="p">,</span><span class="n">rp</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">resid_data_matrix</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">resid_data_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-            <span class="nb">print</span> <span class="s2">&quot;saving resid_ts&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saving resid_ts&quot;</span><span class="p">)</span>
             
             <span class="n">resid_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;resid_ts.npy&#39;</span><span class="p">)</span>
             <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">resid_ts_file</span><span class="p">,</span><span class="n">z_score_data_matrix</span> <span class="p">)</span>
 
-            <span class="nb">print</span> <span class="s2">&quot;plotting resid_ts&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;plotting resid_ts&quot;</span><span class="p">)</span>
             
-            <span class="n">plot_resid_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;resid_ts.eps&#39;</span><span class="p">)</span>
-            
-            <span class="n">plot_sep_signals</span><span class="p">(</span><span class="n">plot_resid_ts_file</span><span class="p">,</span><span class="n">z_score_data_matrix</span><span class="p">)</span>
-            
-            
-            <span class="nb">print</span> <span class="s2">&quot;plotting diff filtered and non filtered data&quot;</span>
-            
-            <span class="n">plot_diff_filt_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;diff_filt_ts.eps&#39;</span><span class="p">)</span>
-            
-            <span class="n">plot_signals</span><span class="p">(</span><span class="n">plot_diff_filt_ts_file</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">resid_filt_data_matrix</span> <span class="o">-</span> <span class="n">resid_data_matrix</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;float&#39;</span><span class="p">))</span>
-            
+            <span class="k">if</span> <span class="n">plot_fig</span><span class="p">:</span>
+                    
+                <span class="n">plot_resid_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;resid_ts.eps&#39;</span><span class="p">)</span>
+                
+                <span class="n">plot_sep_signals</span><span class="p">(</span><span class="n">plot_resid_ts_file</span><span class="p">,</span><span class="n">z_score_data_matrix</span><span class="p">)</span>
+                
+                
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;plotting diff filtered and non filtered data&quot;</span><span class="p">)</span>
+                
+                <span class="n">plot_diff_filt_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;diff_filt_ts.eps&#39;</span><span class="p">)</span>
+                
+                <span class="n">plot_signals</span><span class="p">(</span><span class="n">plot_diff_filt_ts_file</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">resid_filt_data_matrix</span> <span class="o">-</span> <span class="n">resid_data_matrix</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;float&#39;</span><span class="p">))</span>
+                
         <span class="k">elif</span> <span class="n">filtered</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">normalized</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;Using only regression&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using only regression&quot;</span><span class="p">)</span>
         
             <span class="c1">### regression movement parameters and computing z-score on the residuals</span>
             <span class="c1">#resid_data_matrix = regress_movement_wm_csf_parameters(data_mask_matrix,rp,mean_wm_ts,mean_csf_ts)</span>
             <span class="n">resid_data_matrix</span> <span class="o">=</span> <span class="n">regress_parameters</span><span class="p">(</span><span class="n">data_mask_matrix</span><span class="p">,</span><span class="n">rp</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">resid_data_matrix</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">resid_data_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-            <span class="nb">print</span> <span class="s2">&quot;saving resid_ts&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saving resid_ts&quot;</span><span class="p">)</span>
             
             <span class="n">resid_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;resid_ts.npy&#39;</span><span class="p">)</span>
             <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">resid_ts_file</span><span class="p">,</span><span class="n">resid_data_matrix</span> <span class="p">)</span>
@@ -1164,15 +1197,17 @@
             <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">resid_ts_txt_file</span><span class="p">,</span><span class="n">resid_data_matrix</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%0.3f</span><span class="s1">&#39;</span><span class="p">)</span>
 
             
-            <span class="nb">print</span> <span class="s2">&quot;plotting resid_ts&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;plotting resid_ts&quot;</span><span class="p">)</span>
             
-            <span class="n">plot_resid_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;resid_ts.eps&#39;</span><span class="p">)</span>
-            
-            <span class="n">plot_sep_signals</span><span class="p">(</span><span class="n">plot_resid_ts_file</span><span class="p">,</span><span class="n">resid_data_matrix</span><span class="p">)</span>
-            
+            <span class="k">if</span> <span class="n">plot_fig</span><span class="p">:</span>
+                    
+                <span class="n">plot_resid_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;resid_ts.eps&#39;</span><span class="p">)</span>
+                
+                <span class="n">plot_sep_signals</span><span class="p">(</span><span class="n">plot_resid_ts_file</span><span class="p">,</span><span class="n">resid_data_matrix</span><span class="p">)</span>
+                
         <span class="k">else</span><span class="p">:</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;Warning, not implemented (RegressCovar)&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, not implemented (RegressCovar)&quot;</span><span class="p">)</span>
             
         <span class="k">return</span> <span class="n">runtime</span>
         
@@ -1254,7 +1289,7 @@
         <span class="n">concatenated_runs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">concatenated_runs</span>
         
         
-        <span class="nb">print</span> <span class="n">spm_mat_file</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">spm_mat_file</span><span class="p">)</span>
         
         <span class="c1">##Reading spm.mat for regressors extraction:</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">spm_mat_file</span><span class="p">)</span>
@@ -1265,19 +1300,19 @@
         <span class="c1">##Choosing the column according to the regressor name</span>
         <span class="c1">#_,col = np.where(d[&#39;SPM&#39;][&#39;xX&#39;][0][0][&#39;name&#39;][0][0] == u&#39;Sn(1) &#39; + regressor_name)</span>
         
-        <span class="n">cond_name</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;Sn(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">run_index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;) &#39;</span> <span class="o">+</span> <span class="n">regressor_name</span> <span class="o">+</span> <span class="s1">&#39;*bf(1)&#39;</span>
+        <span class="n">cond_name</span> <span class="o">=</span> <span class="s1">&#39;Sn(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">run_index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;) &#39;</span> <span class="o">+</span> <span class="n">regressor_name</span> <span class="o">+</span> <span class="s1">&#39;*bf(1)&#39;</span>
         
-        <span class="nb">print</span> <span class="n">cond_name</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cond_name</span><span class="p">)</span>
         
         <span class="n">_</span><span class="p">,</span><span class="n">col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;SPM&#39;</span><span class="p">][</span><span class="s1">&#39;xX&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">cond_name</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">col</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
         
         <span class="c1">## reformating matrix (1,len) in vector (len)</span>
         <span class="n">regressor_vect</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;SPM&#39;</span><span class="p">][</span><span class="s1">&#39;xX&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;X&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][:,</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         
 
-        <span class="nb">print</span> <span class="n">regressor_vect</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">regressor_vect</span><span class="p">)</span>
         
         <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">regressor_vect</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Error, empty regressor </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cond_name</span><span class="p">)</span>
         
@@ -1287,22 +1322,22 @@
         
         <span class="k">if</span> <span class="n">concatenated_runs</span><span class="p">:</span>
             
-            <span class="nb">print</span> <span class="n">run_index</span>
-            <span class="nb">print</span> <span class="n">regressor_vect</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">run_index</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">regressor_vect</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             
             
             <span class="n">samples</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;SPM&#39;</span><span class="p">][</span><span class="s1">&#39;xX&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;K&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;row&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">run_index</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
             
-            <span class="nb">print</span> <span class="n">samples</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
             
             <span class="n">regressor_vect</span> <span class="o">=</span> <span class="n">regressor_vect</span><span class="p">[</span><span class="n">samples</span><span class="p">]</span>
             
-            <span class="nb">print</span> <span class="n">regressor_vect</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">regressor_vect</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">regressor_vect</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">regressor_vect</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             
-        <span class="nb">print</span> <span class="s2">&quot;Saving extract_cond&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Saving extract_cond&quot;</span><span class="p">)</span>
         <span class="n">regressor_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;extract_cond.txt&#39;</span><span class="p">)</span>
 
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">regressor_file</span><span class="p">,</span><span class="n">regressor_vect</span><span class="p">)</span>
@@ -1352,7 +1387,7 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
                    
-        <span class="nb">print</span> <span class="s1">&#39;in merge_runs&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;in merge_runs&#39;</span><span class="p">)</span>
         
         <span class="n">ts_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ts_files</span>
         <span class="n">regressor_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">regressor_files</span>
@@ -1361,12 +1396,12 @@
         
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ts_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">regressor_files</span><span class="p">):</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;Warning, time series and regressors have different length (!= number of runs)&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, time series and regressors have different length (!= number of runs)&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="mi">0</span>
             
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ts_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coord_rois_files</span><span class="p">):</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;Warning, time series and number of coordinates have different length (!= number of runs)&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, time series and number of coordinates have different length (!= number of runs)&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="mi">0</span>
             
         <span class="c1">### concatenate time series</span>
@@ -1374,12 +1409,12 @@
             
             <span class="n">data_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ts_file</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="c1">## loading ROI coordinates</span>
             <span class="n">coord_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coord_rois_files</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
             
-            <span class="nb">print</span> <span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">data_matrix_all_runs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">data_matrix</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
@@ -1389,11 +1424,11 @@
                 
             <span class="k">if</span> <span class="n">coord_rois_all_runs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 
-                <span class="nb">print</span> <span class="s2">&quot;ROIs do not match for all different sessions &quot;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ROIs do not match for all different sessions &quot;</span><span class="p">)</span>
                 
-                <span class="nb">print</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
                 
-                <span class="nb">print</span> <span class="s2">&quot;Warning, not implemented yet.... &quot;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, not implemented yet.... &quot;</span><span class="p">)</span>
                 
                 <span class="c1">### pris de http://stackoverflow.com/questions/8317022/get-intersecting-rows-across-two-2d-numpy-arrays</span>
                 <span class="c1">### à tester....</span>
@@ -1417,7 +1452,7 @@
 
             <span class="n">data_matrix_all_runs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data_matrix_all_runs</span><span class="p">,</span><span class="n">data_matrix</span><span class="p">),</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">data_matrix_all_runs</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">data_matrix_all_runs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
         <span class="c1">### save times series for all runs</span>
         <span class="n">ts_all_runs_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;ts_all_runs.npy&#39;</span><span class="p">)</span>
@@ -1431,7 +1466,7 @@
         
         <span class="c1">### compute regressor for all sessions together (need to sum)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;compute regressor for all sessions together (need to sum)&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;compute regressor for all sessions together (need to sum)&quot;</span><span class="p">)</span>
         
         <span class="n">regressor_all_runs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
         
@@ -1448,7 +1483,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">regressor_all_runs</span> <span class="o">=</span> <span class="n">regressor_all_runs</span> <span class="o">+</span> <span class="n">regress_data_vector</span>
                 
-            <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">regressor_all_runs</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">regressor_all_runs</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">))</span>
         
         <span class="n">regressor_all_runs_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;regressor_all_runs.txt&#39;</span><span class="p">)</span>
 
@@ -1460,7 +1495,7 @@
         
         <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         
-        <span class="nb">print</span> <span class="n">outputs</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
         
         <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;ts_all_runs_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;ts_all_runs.npy&#39;</span><span class="p">)</span>
         
@@ -1548,7 +1583,7 @@
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
                    
                   
-        <span class="nb">print</span> <span class="s1">&#39;in compute_conf_correlation_matrix&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;in compute_conf_correlation_matrix&#39;</span><span class="p">)</span>
         
         <span class="n">ts_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ts_file</span>
         <span class="n">weight_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">weight_file</span>
@@ -1558,56 +1593,56 @@
         <span class="n">plot_mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">plot_mat</span>
         <span class="n">labels_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_file</span>
         
-        <span class="nb">print</span> <span class="s1">&#39;load resid data&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;load resid data&#39;</span><span class="p">)</span>
         
         <span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">ts_file</span><span class="p">)</span>
         
         <span class="n">data_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ts_file</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="n">transpose_ts</span><span class="p">:</span>
             <span class="n">data_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">data_matrix</span><span class="p">)</span>
-            <span class="nb">print</span> <span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         
         <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">weight_file</span><span class="p">):</span>
         
-            <span class="nb">print</span> <span class="s1">&#39;load weight_vect&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;load weight_vect&#39;</span><span class="p">)</span>
         
             <span class="n">weight_vect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">weight_file</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">weight_vect</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">weight_vect</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="k">else</span><span class="p">:</span>
             <span class="n">weight_vect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;compute return_Z_cor_mat&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;compute return_Z_cor_mat&quot;</span><span class="p">)</span>
         
         <span class="n">cor_mat</span><span class="p">,</span><span class="n">Z_cor_mat</span><span class="p">,</span><span class="n">conf_cor_mat</span><span class="p">,</span><span class="n">Z_conf_cor_mat</span> <span class="o">=</span> <span class="n">return_conf_cor_mat</span><span class="p">(</span><span class="n">data_matrix</span><span class="p">,</span><span class="n">weight_vect</span><span class="p">,</span><span class="n">conf_interval_prob</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">Z_cor_mat</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="n">cor_mat</span> <span class="o">=</span> <span class="n">cor_mat</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">cor_mat</span><span class="p">)</span>
         
         
         <span class="n">Z_cor_mat</span> <span class="o">=</span> <span class="n">Z_cor_mat</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;saving cor_mat as npy&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saving cor_mat as npy&quot;</span><span class="p">)</span>
         
         <span class="n">cor_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span><span class="p">)</span>
         
         <span class="c1">#np.save(cor_mat_file,non_nan_cor_mat)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cor_mat_file</span><span class="p">,</span><span class="n">cor_mat</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;saving conf_cor_mat as npy&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saving conf_cor_mat as npy&quot;</span><span class="p">)</span>
         
         <span class="n">conf_cor_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;conf_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span><span class="p">)</span>
         
         <span class="c1">#np.save(conf_cor_mat_file,non_nan_conf_cor_mat)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">conf_cor_mat_file</span><span class="p">,</span><span class="n">conf_cor_mat</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="s2">&quot;saving Z_cor_mat as npy&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saving Z_cor_mat as npy&quot;</span><span class="p">)</span>
         
         <span class="n">Z_cor_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;Z_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span><span class="p">)</span>
         
@@ -1615,7 +1650,7 @@
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">Z_cor_mat_file</span><span class="p">,</span><span class="n">Z_cor_mat</span><span class="p">)</span>
         
         
-        <span class="nb">print</span> <span class="s2">&quot;saving Z_conf_cor_mat as npy&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saving Z_conf_cor_mat as npy&quot;</span><span class="p">)</span>
         
         <span class="n">Z_conf_cor_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;Z_conf_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span><span class="p">)</span>
         
@@ -1628,10 +1663,10 @@
             
             <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">labels_file</span><span class="p">):</span>
                     
-                <span class="nb">print</span> <span class="s1">&#39;extracting node labels&#39;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;extracting node labels&#39;</span><span class="p">)</span>
                     
                 <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_file</span><span class="p">)]</span>
-                <span class="nb">print</span> <span class="n">labels</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
                 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1640,7 +1675,7 @@
             
             <span class="c1">#### heatmap </span>
             
-            <span class="nb">print</span> <span class="s1">&#39;plotting cor_mat heatmap&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting cor_mat heatmap&#39;</span><span class="p">)</span>
             
             <span class="n">plot_heatmap_cor_mat_file</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;heatmap_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.eps&#39;</span><span class="p">)</span>
             
@@ -1650,7 +1685,7 @@
             
             <span class="c1">#### histogram </span>
             
-            <span class="nb">print</span> <span class="s1">&#39;plotting cor_mat histogram&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting cor_mat histogram&#39;</span><span class="p">)</span>
             
             <span class="n">plot_hist_cor_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;hist_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.eps&#39;</span><span class="p">)</span>
             
@@ -1662,7 +1697,7 @@
             
             <span class="c1">#### heatmap </span>
             
-            <span class="nb">print</span> <span class="s1">&#39;plotting Z_cor_mat heatmap&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting Z_cor_mat heatmap&#39;</span><span class="p">)</span>
             
             <span class="n">plot_heatmap_Z_cor_mat_file</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;heatmap_Z_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.eps&#39;</span><span class="p">)</span>
             
@@ -1678,7 +1713,7 @@
             
             <span class="c1">#### histogram </span>
             
-            <span class="nb">print</span> <span class="s1">&#39;plotting Z_cor_mat histogram&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting Z_cor_mat histogram&#39;</span><span class="p">)</span>
             
             <span class="n">plot_hist_Z_cor_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;hist_Z_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.eps&#39;</span><span class="p">)</span>
             
@@ -1688,7 +1723,7 @@
             
             <span class="c1">#### heatmap </span>
             
-            <span class="nb">print</span> <span class="s1">&#39;plotting conf_cor_mat heatmap&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting conf_cor_mat heatmap&#39;</span><span class="p">)</span>
             
             <span class="n">plot_heatmap_conf_cor_mat_file</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;heatmap_conf_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.eps&#39;</span><span class="p">)</span>
             
@@ -1696,7 +1731,7 @@
             
             <span class="c1">#### histogram </span>
             
-            <span class="nb">print</span> <span class="s1">&#39;plotting conf_cor_mat histogram&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting conf_cor_mat histogram&#39;</span><span class="p">)</span>
             
             <span class="n">plot_hist_conf_cor_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;hist_conf_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.eps&#39;</span><span class="p">)</span>
 
@@ -1709,7 +1744,7 @@
             
             <span class="c1">#### heatmap </span>
             
-            <span class="nb">print</span> <span class="s1">&#39;plotting Z_conf_cor_mat heatmap&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting Z_conf_cor_mat heatmap&#39;</span><span class="p">)</span>
             
             <span class="n">plot_heatmap_Z_conf_cor_mat_file</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;heatmap_Z_conf_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.eps&#39;</span><span class="p">)</span>
             
@@ -1740,7 +1775,7 @@
         
         <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;Z_conf_cor_mat_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;Z_conf_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">outputs</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
         
         <span class="k">return</span> <span class="n">outputs</span></div>
 
@@ -1772,7 +1807,7 @@
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
                    
                   
-        <span class="nb">print</span> <span class="s1">&#39;in compute_conf_correlation_matrix&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;in compute_conf_correlation_matrix&#39;</span><span class="p">)</span>
         
         <span class="n">sess_ts_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sess_ts_files</span>
         <span class="n">labels_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sess_labels_files</span>
@@ -1780,7 +1815,7 @@
         
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sess_ts_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;Warning, could not find sess_ts_files&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, could not find sess_ts_files&quot;</span><span class="p">)</span>
             
             <span class="k">return</span> <span class="n">runtime</span>
             
@@ -1791,27 +1826,27 @@
         
         <span class="k">for</span> <span class="n">ts_file</span> <span class="ow">in</span> <span class="n">sess_ts_files</span><span class="p">:</span>
             
-            <span class="nb">print</span> <span class="s1">&#39;load data&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;load data&#39;</span><span class="p">)</span>
             
             <span class="n">data_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ts_file</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">data_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="n">list_sess_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_matrix</span><span class="p">)</span>
             
         <span class="n">subj_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">list_sess_ts</span><span class="p">),</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">subj_ts</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">subj_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">subj_ts</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
-        <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">subj_ts</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
-        <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">subj_ts</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">subj_ts</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">subj_ts</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">subj_ts</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
         
         <span class="n">good_trigs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">subj_ts</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span>
         
         <span class="n">select_subj_ts</span> <span class="o">=</span> <span class="n">subj_ts</span><span class="p">[</span><span class="n">good_trigs</span><span class="p">,:,:]</span>
        
-        <span class="nb">print</span> <span class="n">select_subj_ts</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">select_subj_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">select_ts_files</span> <span class="o">=</span> <span class="p">[]</span>
         
@@ -1828,7 +1863,7 @@
         
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             
-            <span class="nb">print</span> <span class="s2">&quot;Warning, could not find sess_ts_files&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, could not find sess_ts_files&quot;</span><span class="p">)</span>
             
             <span class="k">return</span> <span class="n">runtime</span>
           
@@ -1836,7 +1871,7 @@
         
         <span class="n">select_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">select_labels_file</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;str&#39;</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="n">select_labels</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">select_labels</span><span class="p">)</span>
         <span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
         <span class="n">labels_files</span>
         
@@ -1848,7 +1883,7 @@
         
         <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;select_ts_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_ts_files</span>
         
-        <span class="nb">print</span> <span class="n">outputs</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
         
         <span class="k">return</span> <span class="n">outputs</span>
 
@@ -1960,10 +1995,10 @@
             
             <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">):</span>
                     
-                <span class="nb">print</span> <span class="s1">&#39;extracting node labels&#39;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;extracting node labels&#39;</span><span class="p">)</span>
                     
                 <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">)]</span>
-                <span class="nb">print</span> <span class="n">labels</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
                 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1976,42 +2011,46 @@
                 
                 <span class="n">gm_mask_coords_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_coords_file</span>
             
-                <span class="nb">print</span> <span class="s1">&#39;loading gm mask corres&#39;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;loading gm mask corres&#39;</span><span class="p">)</span>
                 
-                <span class="n">gm_mask_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">gm_mask_coords_file</span><span class="p">)</span>
+                <span class="n">gm_mask_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">gm_mask_coords_file</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
                 
-                <span class="nb">print</span> <span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                     
                 <span class="n">sum_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-                <span class="nb">print</span> <span class="n">sum_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">sum_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 
                 <span class="n">sum_possible_edge_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
-                <span class="nb">print</span> <span class="n">sum_possible_edge_matrix</span><span class="o">.</span><span class="n">shape</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 
                         
                 <span class="n">group_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-                <span class="nb">print</span> <span class="n">group_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">group_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">):</span>
-                    <span class="nb">print</span> <span class="s2">&quot;warning, length of cor_mat_files, coords_files are imcompatible </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning, length of cor_mat_files, coords_files are imcompatible </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">)))</span>
                 
                 <span class="k">for</span> <span class="n">index_file</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)):</span>
                     
-                    <span class="nb">print</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
                     
                     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]):</span>
                     
                         <span class="n">Z_cor_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
-                        <span class="nb">print</span> <span class="n">Z_cor_mat</span><span class="o">.</span><span class="n">shape</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                         
                         
                         <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
                         
-                        <span class="nb">print</span> <span class="n">coords</span>
-                        <span class="nb">print</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                                             
+                        <span class="nb">print</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span>
+                        
                         <span class="n">corres_cor_mat</span><span class="p">,</span><span class="n">possible_edge_mat</span> <span class="o">=</span> <span class="n">return_corres_correl_mat</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">,</span><span class="n">coords</span><span class="p">,</span><span class="n">gm_mask_coords</span><span class="p">)</span>
                         
+                        <span class="nb">print</span><span class="p">(</span><span class="n">corres_cor_mat</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">possible_edge_mat</span><span class="p">)</span>
                         
                         <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">corres_cor_mat</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
                         
@@ -2026,7 +2065,7 @@
                         
                         
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="nb">print</span> <span class="s2">&quot;Warning, one or more files between &quot;</span> <span class="o">+</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; do not exists&quot;</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, one or more files between &quot;</span> <span class="o">+</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; do not exists&quot;</span><span class="p">)</span>
                     
                     
                     
@@ -2037,47 +2076,46 @@
                 <span class="n">gm_mask_labels_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_labels_file</span>
                 
                     
-                <span class="nb">print</span> <span class="s1">&#39;loading gm mask labels&#39;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;loading gm mask labels&#39;</span><span class="p">)</span>
                 
                 <span class="n">gm_mask_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">)]</span>
                 
-                <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">gm_mask_labels</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gm_mask_labels</span><span class="p">))</span>
                     
                 <span class="n">gm_mask_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">)],</span><span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;str&#39;</span><span class="p">)</span>
             
                 <span class="n">sum_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-                <span class="nb">print</span> <span class="n">sum_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">sum_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 
                 <span class="n">sum_possible_edge_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
-                <span class="nb">print</span> <span class="n">sum_possible_edge_matrix</span><span class="o">.</span><span class="n">shape</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 
                         
                 <span class="n">group_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-                <span class="nb">print</span> <span class="n">group_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">group_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_files</span><span class="p">):</span>
-                    <span class="nb">print</span> <span class="s2">&quot;warning, length of cor_mat_files, labels_files are imcompatible </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_files</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning, length of cor_mat_files, labels_files are imcompatible </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_files</span><span class="p">)))</span>
                 
                 <span class="k">for</span> <span class="n">index_file</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)):</span>
                     
-                    <span class="nb">print</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
                     
                     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">labels_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]):</span>
                     
                         <span class="n">Z_cor_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
-                        <span class="nb">print</span> <span class="n">Z_cor_mat</span><span class="o">.</span><span class="n">shape</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                         
                         <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">)]</span>
-                        <span class="nb">print</span> <span class="n">labels</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
                 
                         <span class="n">np_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">str</span><span class="p">)</span>
                         
-                        <span class="nb">print</span> <span class="n">np_labels</span>
-                        <span class="nb">print</span> <span class="n">np_labels</span><span class="o">.</span><span class="n">shape</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">np_labels</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">np_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                                             
                         <span class="n">corres_cor_mat</span><span class="p">,</span><span class="n">possible_edge_mat</span> <span class="o">=</span> <span class="n">return_corres_correl_mat_labels</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">,</span><span class="n">np_labels</span><span class="p">,</span><span class="n">gm_mask_labels</span><span class="p">)</span>
                         
-                        <span class="nb">print</span> <span class="n">corres_cor_mat</span>
                         
                         <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">corres_cor_mat</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
                         
@@ -2092,7 +2130,7 @@
                         
                         
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="nb">print</span> <span class="s2">&quot;Warning, one or more files between &quot;</span> <span class="o">+</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">labels_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; do not exists&quot;</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, one or more files between &quot;</span> <span class="o">+</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">labels_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; do not exists&quot;</span><span class="p">)</span>
                     
                     
             <span class="bp">self</span><span class="o">.</span><span class="n">group_cor_mat_matrix_file</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;group_cor_mat_matrix.npy&#39;</span><span class="p">)</span>
@@ -2100,19 +2138,19 @@
             <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">group_cor_mat_matrix_file</span><span class="p">,</span><span class="n">group_cor_mat_matrix</span><span class="p">)</span>
             
             
-            <span class="nb">print</span> <span class="s1">&#39;saving sum cor_mat matrix&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;saving sum cor_mat matrix&#39;</span><span class="p">)</span>
             
             <span class="bp">self</span><span class="o">.</span><span class="n">sum_cor_mat_matrix_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;sum_cor_mat_matrix.npy&#39;</span><span class="p">)</span>
             
             <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sum_cor_mat_matrix_file</span><span class="p">,</span><span class="n">sum_cor_mat_matrix</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="s1">&#39;saving sum_possible_edge matrix&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;saving sum_possible_edge matrix&#39;</span><span class="p">)</span>
             
             <span class="bp">self</span><span class="o">.</span><span class="n">sum_possible_edge_matrix_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;sum_possible_edge_matrix.npy&#39;</span><span class="p">)</span>
             
             <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sum_possible_edge_matrix_file</span><span class="p">,</span><span class="n">sum_possible_edge_matrix</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="s1">&#39;saving avg_cor_mat_matrix&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;saving avg_cor_mat_matrix&#39;</span><span class="p">)</span>
             
             <span class="bp">self</span><span class="o">.</span><span class="n">avg_cor_mat_matrix_file</span>  <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;avg_cor_mat_matrix.npy&#39;</span><span class="p">)</span>
             
@@ -2125,7 +2163,7 @@
                             
                     <span class="n">avg_cor_mat_matrix</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.0</span>
                     
-                    <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">))</span>
                     
                     <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">avg_cor_mat_matrix_file</span><span class="p">,</span><span class="n">avg_cor_mat_matrix</span><span class="p">)</span>
                     
@@ -2141,23 +2179,43 @@
                 
             
             <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span> <span class="s2">&quot;!!!!!!!!!!!!!!!!!!!!!!Breaking!!!!!!!!!!!!!!!!!!!!!!!!, found 0 elements in sum_cor_mat_matrix&quot;</span>
+                
+                    <span class="c1">#print &quot;!!!!!!!!!!!!!!!!!!!!!!Breaking!!!!!!!!!!!!!!!!!!!!!!!!, found 0 elements in sum_cor_mat_matrix&quot;</span>
                     
-                    <span class="nb">print</span> <span class="n">sum_possible_edge_matrix</span>
-                    <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-                    <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-                    <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+                    <span class="c1">#print sum_possible_edge_matrix</span>
+                    <span class="c1">#print np.array(sum_possible_edge_matrix == 0)</span>
+                    <span class="c1">#print np.array(sum_possible_edge_matrix == 0)</span>
+                    <span class="c1">#print np.sum(np.array(sum_possible_edge_matrix == 0))</span>
                     
-                    <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span><span class="p">)</span>
+                    <span class="c1">#print np.unique(sum_possible_edge_matrix)</span>
                     
-                    <span class="k">return</span>
+                    <span class="c1">#return</span>
+                    
+                    
+                    <span class="n">avg_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_cor_mat_matrix</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">))</span>
+                            
+                    <span class="n">avg_cor_mat_matrix</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.0</span>
+                    
+                    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">))</span>
+                    
+                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">avg_cor_mat_matrix_file</span><span class="p">,</span><span class="n">avg_cor_mat_matrix</span><span class="p">)</span>
+                    
+                    
+                    <span class="k">if</span> <span class="n">export_csv</span><span class="p">:</span>
+                        
+                        <span class="n">csv_avg_cor_mat_matrix_file</span>  <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;avg_cor_mat_matrix.csv&#39;</span><span class="p">)</span>
+                        
+                        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">labels</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">labels</span><span class="p">)</span>
+                        
+                        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_avg_cor_mat_matrix_file</span><span class="p">)</span>
+                        
                 
                 
             <span class="k">if</span> <span class="n">plot_mat</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
                 
                 <span class="c1">#### heatmap </span>
                 
-                <span class="nb">print</span> <span class="s1">&#39;plotting Z_cor_mat heatmap&#39;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plotting Z_cor_mat heatmap&#39;</span><span class="p">)</span>
                 
                 <span class="n">plot_heatmap_avg_cor_mat_file</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;heatmap_avg_cor_mat.eps&#39;</span><span class="p">)</span>
                 
@@ -2215,13 +2273,13 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
                
-            <span class="nb">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">seed</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
             
             <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
             
             <span class="n">cormats</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cor_mat_file</span><span class="p">)</span> <span class="k">for</span> <span class="n">cor_mat_file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">cor_mat_files</span><span class="p">]</span>
             
-            <span class="nb">print</span> <span class="n">cormats</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">cormats</span><span class="p">)</span>
             
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">cormats</span><span class="p">)</span> <span class="o">==</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">permut_group_sizes</span><span class="p">),</span> <span class="s2">&quot;Warning, len(cormats) </span><span class="si">{0}</span><span class="s2"> != sum permut_group_sizes </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cormats</span><span class="p">),</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">permut_group_sizes</span><span class="p">))</span>
             
@@ -2229,7 +2287,7 @@
             
             <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">subj_indexes</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">subj_indexes</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">subj_indexes</span><span class="p">)</span>
             
             <span class="n">subj_indexes_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;subj_indexes.txt&quot;</span><span class="p">)</span>
 
@@ -2244,21 +2302,21 @@
             
             <span class="n">cormats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cormats</span><span class="p">)</span>
             
-            <span class="nb">print</span> <span class="n">cormats</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">cormats</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             
             <span class="bp">self</span><span class="o">.</span><span class="n">permut_mean_cormat_files</span> <span class="o">=</span> <span class="p">[]</span>
             
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">cur_nb_subj_by_gender</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">permut_group_sizes</span><span class="p">):</span>
                 
-                <span class="nb">print</span> <span class="n">cur_nb_subj_by_gender</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">cur_nb_subj_by_gender</span><span class="p">)</span>
                 
                 <span class="n">cur_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">min_index</span><span class="p">,</span><span class="n">min_index</span><span class="o">+</span><span class="n">cur_nb_subj_by_gender</span><span class="p">)</span>
                 
-                <span class="nb">print</span> <span class="n">cur_range</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">cur_range</span><span class="p">)</span>
                 
                 <span class="n">rand_indexes</span> <span class="o">=</span> <span class="n">subj_indexes</span><span class="p">[</span><span class="n">cur_range</span><span class="p">]</span>
                 
-                <span class="nb">print</span> <span class="n">rand_indexes</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">rand_indexes</span><span class="p">)</span>
                 
                 <span class="c1">#f.write(rand_indexes)</span>
                 
@@ -2268,7 +2326,7 @@
                 
                 <span class="n">permut_mean_cormat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">permut_cormats</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
                 
-                <span class="nb">print</span> <span class="n">permut_mean_cormat</span><span class="o">.</span><span class="n">shape</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">permut_mean_cormat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 
                 <span class="n">permut_mean_cormat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;permut_mean_cormat_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.npy&quot;</span><span class="p">)</span>
                 

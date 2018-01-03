@@ -197,8 +197,13 @@
 
     <span class="n">fwd_filename</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;LF matrix&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">is_epoched</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;if true raw data will be epoched&#39;</span><span class="p">,</span>
+    <span class="n">is_epoched</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                             <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;if true raw data will be epoched&#39;</span><span class="p">,</span>
                              <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">is_fixed</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;if true we use fixed orientation&#39;</span><span class="p">,</span>
+                           <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="n">events_id</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Dict</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;the id of all events to consider.&#39;</span><span class="p">,</span>
                             <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -227,7 +232,7 @@
     <span class="n">aseg_labels</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;list of substructures in the src space&#39;</span><span class="p">,</span>
                               <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">save_stc</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="s1">&#39;False&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;if true save stc&#39;</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">save_stc</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;if true save stc&#39;</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 			   <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 
@@ -268,6 +273,8 @@
 <span class="sd">        is_evoked: bool</span>
 <span class="sd">            if True the raw data will be averaged according to the events</span>
 <span class="sd">            contained in the dict events_id</span>
+<span class="sd">        is_fixed : bool</span>
+<span class="sd">            if True we use fixed orientation</span>
 <span class="sd">        inv_method : str</span>
 <span class="sd">            the inverse method to use; possible choices: MNE, dSPM, sLORETA</span>
 <span class="sd">        snr : float</span>
@@ -294,6 +301,7 @@
         <span class="n">cov_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">cov_filename</span>
         <span class="n">fwd_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fwd_filename</span>
         <span class="n">is_epoched</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_epoched</span>
+        <span class="n">is_fixed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_fixed</span>
         <span class="n">events_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">events_id</span>
         <span class="n">t_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_min</span>
         <span class="n">t_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_max</span>
@@ -310,7 +318,8 @@
                                  <span class="n">cov_filename</span><span class="p">,</span> <span class="n">is_epoched</span><span class="p">,</span> <span class="n">events_id</span><span class="p">,</span>
                                  <span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span><span class="p">,</span> <span class="n">is_evoked</span><span class="p">,</span>
                                  <span class="n">snr</span><span class="p">,</span> <span class="n">inv_method</span><span class="p">,</span> <span class="n">parc</span><span class="p">,</span>
-                                 <span class="n">aseg</span><span class="p">,</span> <span class="n">aseg_labels</span><span class="p">,</span> <span class="n">save_stc</span><span class="p">)</span>
+                                 <span class="n">aseg</span><span class="p">,</span> <span class="n">aseg_labels</span><span class="p">,</span> <span class="n">save_stc</span><span class="p">,</span>
+                                 <span class="n">is_fixed</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">runtime</span>
 
@@ -395,8 +404,8 @@
                 <span class="n">events</span> <span class="o">=</span> <span class="n">find_events</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span><span class="p">):</span>
-                    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** COMPUTE COV FROM EPOCHS ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
-                        <span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">*** COMPUTE COV FROM EPOCHS ***</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
+                        <span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span><span class="p">))</span>
 
                     <span class="n">reject</span> <span class="o">=</span> <span class="n">create_reject_dict</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
                     <span class="n">picks</span> <span class="o">=</span> <span class="n">pick_types</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="n">meg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ref_meg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -411,16 +420,16 @@
                                                    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;diagonal_fixed&#39;</span><span class="p">)</span>
                     <span class="n">write_cov</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span><span class="p">,</span> <span class="n">noise_cov</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!!! </span><span class="se">\n</span><span class="s1">&#39;</span> \
-                        <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!!! </span><span class="se">\n</span><span class="s1">&#39;</span> \
+                        <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** RAW DATA </span><span class="se">\n</span><span class="s1">&#39;</span>
                 <span class="k">for</span> <span class="n">er_fname</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">cov_fname_in</span><span class="p">)):</span>
-                    <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> found file name </span><span class="si">%s</span><span class="s1">  </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">er_fname</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> found file name </span><span class="si">%s</span><span class="s1">  </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">er_fname</span><span class="p">))</span>
 
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">er_fname</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;cov.fif&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                        <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!! </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">er_fname</span>
+                        <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!! </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">er_fname</span><span class="p">))</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span> <span class="o">=</span> <span class="n">er_fname</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">er_fname</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;.fif&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -442,14 +451,14 @@
                                                                <span class="n">reject</span><span class="o">=</span><span class="n">reject</span><span class="p">)</span>
                             <span class="n">write_cov</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span><span class="p">,</span> <span class="n">noise_cov</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!!! </span><span class="se">\n</span><span class="s1">&#39;</span> \
-                                <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span>
+                            <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!!! </span><span class="se">\n</span><span class="s1">&#39;</span> \
+                                <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span><span class="p">))</span>
                 <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;No covariance matrix as input!&quot;</span><span class="p">)</span>
                                     <span class="c1"># TODO creare una matrice diagonale?</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!!! </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">cov_fname_in</span>
+            <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> *** NOISE cov file </span><span class="si">%s</span><span class="s1"> exists!!! </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">cov_fname_in</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cov_fname_out</span> <span class="o">=</span> <span class="n">cov_fname_in</span>
 
         <span class="k">return</span> <span class="n">runtime</span>
